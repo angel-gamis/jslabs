@@ -1,14 +1,25 @@
 <html>
     <body>
         <form name="converter">
-            <p>Temperature in Celcius</p>
-            <input type="text" name="celsius" value="" placeholder="Enter Temperature" size="10">
+            <p>Temperature in Celsius</p>
+            <input type="text" name="celsius" value="" placeholder="Enter Temperature" size="20" onchange="convertTemp(document.converter.celsius.value)">
 
-            <p>Temperature in Fahrenheit</p>>
+            <p>Temperature in Fahrenheit</p>
             <input type="text" name="fahrenheit" value="">
-            <p>Temperature in Kelvin</p>>
+            <p>Temperature in Kelvin</p>
             <input type="text" name="kelvin" value="">
         </form>
-    </body>
 
+        <script>
+            function convertTemp(celsiusTemp){
+                // Converting Temps
+                let fahrenheit = (celsiusTemp * 9/5) + 32;
+                let kelvin = parseInt(celsiusTemp) + 273.15;
+
+                // Set Values of Temps
+                document.converter.fahrenheit.value = fahrenheit;
+                document.converter.kelvin.value = kelvin;
+            }
+        </script>
+    </body>
 </html>
