@@ -1,0 +1,23 @@
+<html>
+	<body>
+		<form name="calculate">
+			<p>Length</p>
+			<input type="text" name="lengthInput" value="" placeholder="Enter a length" size="7" onChange="areaCalc()">
+		
+			<p>Width</p>
+			<input type="text" name="widthInput" value="" placeholder="Enter a width" size="7" onChange="areaCalc()">
+ 
+			<p>Area</p>
+			<input type="text" name"area" value="" size="7">
+		</form>
+
+		<script>
+			let length = document.calculate.lengthInput.value;
+			let width = document.calculate.widthInput.value;
+			
+			function areaCalc(){
+				document.calculate.area.value = length * width;
+			}
+		</script>
+	</body>
+</html>
