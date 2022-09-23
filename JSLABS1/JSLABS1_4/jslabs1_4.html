@@ -1,0 +1,27 @@
+<html>
+	<body>
+		<form name="fenceCalc">
+			<h4>Client Requirements</h4>
+			<p>Fence Length in Feet(Max: 200 feet)</p>
+			<input type="text" name="length" value="" size="7" onchange="calculateFence(document.fenceCalc.length.value,document.fenceCalc.height.value)">
+			<p>Barbed Wire Height in Strands(2-5)</p>
+			<input type="text" name="height" value="" size="7" onchange="calculateFence(document.fenceCalc.length.value,document.fenceCalc.height.value)">
+			
+		</form>
+
+		<h4>Supplies Needed:</h4>
+		Number of Posts: <input type="text" name="posts" value="" size="7"><br>
+		Amount of Feet of Barbed Wire Needed: <input type="text" name="wire" value="" size="7"><br>
+		Staples Needed: <input type="text" name="staples" value="" size="7">
+
+		<script>
+			function calculateFence(length, strands){
+				document.fenceCalc.posts.value = (Math.ceil(length/8))+1;
+				document.fenceCalc.wire.value = length * strands;
+				document.fenceCalc.staples.value = document.fenceCalc.posts.value * strands;
+					
+			}
+		</script>
+	</body>
+	
+</html>
