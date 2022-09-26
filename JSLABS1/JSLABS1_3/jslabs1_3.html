@@ -1,21 +1,23 @@
 <html>
-    <body>
-        <form name="populations">
-            <h3>Population of:</h3>
-            <p>Year 1</p>
-            <input type="text" name="year1" value="" size="12" onchange="calculatePop(document.populations.year1.value,document.populations.year2.value,document.populations.year3.value,document.populations.year4.value,document.populations.year5.value)">
-            <p>Year 2</p>
-            <input type="text" name="year2" value="" size="12" onchange="calculatePop(document.populations.year1.value,document.populations.year2.value,document.populations.year3.value,document.populations.year4.value,document.populations.year5.value)">
-            <p>Year 3</p>
-            <input type="text" name="year3" value="" size="12" onchange="calculatePop(document.populations.year1.value,document.populations.year2.value,document.populations.year3.value,document.populations.year4.value,document.populations.year5.value)">
-            <p>Year 4</p>
-            <input type="text" name="year4" value="" size="12" onchange="calculatePop(document.populations.year1.value,document.populations.year2.value,document.populations.year3.value,document.populations.year4.value,document.populations.year5.value)">
-            <p>Year 5</p>
-            <input type="text" name="year5" value="" size="12" onchange="calculatePop(document.populations.year1.value,document.populations.year2.value,document.populations.year3.value,document.populations.year4.value,document.populations.year5.value)">
+    <body style="background-color: #c6ecc6;">
+	<div style="display: flex; align-items: center; justify-content: center;">
+       		<form name="populations">
+           		<h3 style="text-align: center;">Population of:</h3>
+           		<p>Year 1</p>
+          		<input type="text" name="year1" value="" size="12" onchange="calculatePop(document.populations.year1.value,document.populations.year2.value,document.populations.year3.value,document.populations.year4.value,document.populations.year5.value)">
+         		<p>Year 2</p>
+         		<input type="text" name="year2" value="" size="12" onchange="calculatePop(document.populations.year1.value,document.populations.year2.value,document.populations.year3.value,document.populations.year4.value,document.populations.year5.value)">
+           		<p>Year 3</p>
+           		<input type="text" name="year3" value="" size="12" onchange="calculatePop(document.populations.year1.value,document.populations.year2.value,document.populations.year3.value,document.populations.year4.value,document.populations.year5.value)">
+            		<p>Year 4</p>
+           		<input type="text" name="year4" value="" size="12" onchange="calculatePop(document.populations.year1.value,document.populations.year2.value,document.populations.year3.value,document.populations.year4.value,document.populations.year5.value)">
+            		<p>Year 5</p>
+            		<input type="text" name="year5" value="" size="12" onchange="calculatePop(document.populations.year1.value,document.populations.year2.value,document.populations.year3.value,document.populations.year4.value,document.populations.year5.value)">
 
-            <p>Predictin for year 6:</p>
-            <input type="text" name="prediction" value="">
-        </form>
+        		<p style="font-style: italic; font-size: 20px; font-weight: bold;">Predictin for year 6:</p>
+        		<input type="text" name="prediction" value="">
+     		</form>
+	</div>
 
         <script>
             function calculatePop(year1, year2, year3, year4, year5){
