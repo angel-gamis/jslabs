@@ -1,21 +1,25 @@
 <html>
-	<body>
+	<body style="background-color: #7094db;">
+
 		<form name="fenceCalc">
+			<div style="background-color: #fcfcf6; width: 30%; display: block; margin: auto; border-radius: 5px; padding: 1px 10px 10px 10px;">
+				<h4>Client Requirements</h4>
 
-			<h4>Client Requirements</h4>
+				<p>Fence Length in Feet(Max: 200 feet)</p>
+				<input type="text" name="length" value="" size="7" onchange="calculateFence(document.fenceCalc.length.value,document.fenceCalc.height.value)"><br>
 
-			<p>Fence Length in Feet(Max: 200 feet)</p>
-			<input type="text" name="length" value="" size="7" onchange="calculateFence(document.fenceCalc.length.value,document.fenceCalc.height.value)">
-
-			<p>Barbed Wire Height in Strands(2-5)</p>
-			<input type="text" name="height" value="" size="7" onchange="calculateFence(document.fenceCalc.length.value,document.fenceCalc.height.value)">
+				<p>Barbed Wire Height in Strands(2-5)</p>
+				<input type="text" name="height" value="" size="7" onchange="calculateFence(document.fenceCalc.length.value,document.fenceCalc.height.value)">
+			</div><br><br>
+			<div style="background-color: #fcfcf6; width: 30%; display: block; margin: auto; border-radius: 5px; padding: 1px 10px 10px 10px;">
 
 			<h4>Supplies Needed:</h4>
 
 			Number of Posts: <input type="text" name="posts" value="" size="7"><br>
 			Amount of Feet of Barbed Wire Needed: <input type="text" name="wire" value="" size="7"><br>
 			Staples Needed: <input type="text" name="staples" value="" size="7">
-			
+			</div><br><br><br><br>
+			<img src="fence.png" width="350px" style="display: block; margin: auto;">
 		</form>
 
 
