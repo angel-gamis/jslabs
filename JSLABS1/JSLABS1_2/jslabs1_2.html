@@ -1,14 +1,17 @@
 <html>
-    <body>
-        <form name="converter">
-            <p>Temperature in Celsius</p>
-            <input type="text" name="celsius" value="" placeholder="Enter Temperature" size="20" onchange="convertTemp(document.converter.celsius.value)">
+    <body style="background-color: #cceeff;">
+	<div style="display: flex; align-items: center; justify-content: center;">
+        	<form name="converter">
+           		<p>Temperature in Celsius</p>
+           		<input type="text" name="celsius" value="" placeholder="Enter Temperature" size="20" onchange="convertTemp(document.converter.celsius.value)">
 
-            <p>Temperature in Fahrenheit</p>
-            <input type="text" name="fahrenheit" value="">
-            <p>Temperature in Kelvin</p>
-            <input type="text" name="kelvin" value="">
-        </form>
+           		<p>Temperature in Fahrenheit</p>
+           		<input type="text" name="fahrenheit" value="">
+           		<p>Temperature in Kelvin</p>
+           		<input type="text" name="kelvin" value="">
+      		</form>
+		<img src="thermometer.png" width="125px">
+	</div>
 
         <script>
             function convertTemp(celsiusTemp){
