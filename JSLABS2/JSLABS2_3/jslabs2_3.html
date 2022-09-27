@@ -1,0 +1,30 @@
+<html>
+	<body>
+		<form name="input">
+			<h1>Super Character Counter</h1>
+			<textarea name="sentence" value="" style="height: 100px; width: 500px;" onchange="evaluateSentence(document.input.sentence.value)"></textarea><br>
+			
+			<h4>Constants:</h4>
+			<input type="text" name="constResult" value="" size="6">
+
+			<h4>Vowels:</h4>
+			<input type="text" name="vowelsResult" value="" size="6">
+
+			<h4>Numbers</h4>
+			<input type="text" name="numResult" value="" size="6">
+
+			<h4>Spaces:</h4>
+			<input type="text" name="spacesResult" value="" size="6">
+
+			<h4>Others:</h4>
+			<input type="text" name="otherResult" value="" size="6">
+		</form>
+		<script>
+			let sentence = document.input.sentence.value;
+			
+			function evaluateSentence(sentence){
+				document.input.lengthResult.value = sentence.length;
+			}
+		</script>
+	</body>
+</html>
