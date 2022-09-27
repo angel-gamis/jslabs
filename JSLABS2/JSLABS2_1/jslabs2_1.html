@@ -1,0 +1,32 @@
+<html>
+	<body>
+		<form name="alpha">
+			<h1>Get Letters of Alphabet</h1>
+			14th to the 17th letter of the alphabet:
+			
+			<input name="letters" value="" size="7"><br>
+
+			<h3>Get the Letters in Between:</h3>
+			1st Letter Spot(Must be before 2nd) <input name="first" value="" size="4" onchange="getLetters(document.alpha.first.value, document.alpha.second.value)"><br>
+			2st Letter Spot (Must be after 1st) <input name="second" value="" size="4" onchange="getLetters(document.alpha.first.value, document.alpha.second.value)"><br>
+			<h4>Result:</h4>
+			<input name="result" value="" size="20">
+		</form>
+
+		<script>
+			let alphabet
+			alphabet = "abcdefghijklmnopqrstuvwxyz"
+
+			function getNOP(){
+				document.alpha.letters.value = alphabet.slice(13, 16);
+			}
+
+			function getLetters(first, second){
+				first--;
+				document.alpha.result.value = alphabet.slice(parseInt(first), parseInt(second));
+			}
+
+			getNOP();
+		</script>
+	</body>
+</html>
