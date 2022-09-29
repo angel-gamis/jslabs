@@ -1,0 +1,89 @@
+<html>
+	<body style="background-color: #25235e;">
+		<h1 style="text-align: center; font-family: arial; color: #ff0008; -webkit-text-stroke: .5px white; font-size: 50px;">Super Secret Hero Identity Finder</h1>
+
+			<p style="text-align:center; color: white; font-size: 30px; font-family: arial;">Click on the images to reveal secret identities!</p>
+
+		<div id="imgContainer"style="display: flex; vertical-align: middle; text-align: center; color: white; font-family: arial;">
+			
+			<div style="flex: 33.33%; padding: 20px;">
+				<h4 id="supermanText">Superman</h4>
+				<img src="superman.gif" name="superman" width="250px" style="border:  1px solid white;" onclick="loadSuperman()">
+			</div>
+
+			<div style="flex: 33.33%; padding: 20px;">
+				<h4 id="spidermanText">Spider-Man</h4>
+				<img src="spiderman.gif" name="spiderman" width="250px" style="border:  1px solid white;" onclick="loadSpiderman()">
+			</div>
+
+			<div style="flex: 33.33%; padding: 20px;">
+				<h4 id="ironmanText">Iron Man</h4>
+				<img src="ironman.gif" name="ironman" width="250px" style="border:  1px solid white;" onclick="loadIronman()">
+			</div>
+		</div>
+		<script>
+			let superClicks = 0;
+			let spiderClicks = 0;
+			let ironClicks = 0;			
+
+			
+			function loadSuperman(){
+				superClicks++
+
+				//Resets clicks
+				if(superClicks == 2){
+					superClicks = 0;
+				}
+
+				// Checks Conditions
+				if(superClicks == 1){
+					document.superman.src = "clarkKent.gif";
+					document.getElementById("supermanText").innerHTML = "Clark Kent";
+				}
+				if(superClicks == 0){
+					document.superman.src = "superman.gif";
+					document.getElementById("supermanText").innerHTML = "Superman";
+				}
+			}
+
+			function loadSpiderman(){
+				spiderClicks++
+
+				//Resets clicks
+				if(spiderClicks == 2){
+					spiderClicks = 0;
+				}
+
+				// Checks Conditions
+				if(spiderClicks == 1){
+					document.spiderman.src = "peterParker.gif";
+					document.getElementById("spidermanText").innerHTML = "Peter Parker";
+				}
+				if(spiderClicks == 0){
+					document.spiderman.src = "spiderman.gif";
+					document.getElementById("spidermanText").innerHTML = "Spider-Man";
+				}
+			}
+		
+			function loadIronman(){
+				ironClicks++
+
+				//Resets clicks
+				if(ironClicks == 2){
+					ironClicks = 0;
+				}
+
+				// Checks Conditions
+				if(ironClicks == 1){
+					document.ironman.src = "tonyStark.gif";
+					document.getElementById("ironmanText").innerHTML = "Tony Stark";
+				}
+				if(ironClicks == 0){
+					document.ironman.src = "ironman.gif";
+					document.getElementById("ironmanText").innerHTML = "Iron Man";
+				}
+			}
+		</script>
+	</body>
+		
+</html>
