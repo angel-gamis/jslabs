@@ -9,7 +9,7 @@
 				<input type="text" name="length" value="" size="7" onchange="calculateFence(document.fenceCalc.length.value, document.fenceCalc.height.value, document.fenceCalc.pricePosts.value, document.fenceCalc.priceWire.value, document.fenceCalc.priceStaples.value, document.fenceCalc.priceLabour.value); buildFence(document.fenceCalc.posts.value, document.fenceCalc.wire.value)"><br>
 
 				<p>Barbed Wire Height in Strands(2-5)</p>
-				<input type="text" name="height" value="" size="7" onchange="calculateFence(document.fenceCalc.length.value, document.fenceCalc.height.value, document.fenceCalc.pricePosts.value, document.fenceCalc.priceWire.value, document.fenceCalc.priceStaples.value, document.fenceCalc.priceLabour.value);  buildFence(document.fenceCalcsssssssssssssssssssss.posts.value, document.fenceCalc.wire.value)">
+				<input type="text" name="height" value="" size="7" onchange="calculateFence(document.fenceCalc.length.value, document.fenceCalc.height.value, document.fenceCalc.pricePosts.value, document.fenceCalc.priceWire.value, document.fenceCalc.priceStaples.value, document.fenceCalc.priceLabour.value);  buildFence(document.fenceCalc.posts.value, document.fenceCalc.wire.value)">
 			</div><br><br>
 
 			<div style="background-color: #fcfcf6; width: 30%; display: block; margin: auto; border-radius: 5px; padding: 1px 10px 3px 10px;">
@@ -61,11 +61,26 @@
 
 			function buildFence(posts, strands){
 				console.log("called function");
+
+				let postDistance = 45;
+
+				// Build Posts
 				for(i=1;i<=posts;i++){
-					let form;
-					form = document.getElementbyId("fenceDiagram");
-					fenceDiagram.createElement('<img src="fence_post_trans.gif" style="left: "+posts+"px; top: 500px; height: 50px;">');
-				console.log("building");
+					div = document.getElementById("fenceDiagram");
+					fence = document.createElement('img');
+					div.appendChild(fence);
+					fence.src = "fence_post_trans.gif";
+					fence.style = "left: "+postDistance+"px; top: 500px; height: 50px;"
+					console.log("building posts");
+				}
+				// Build Wires
+				for(i=1;i<=strands;i++){
+					div = document.getElementById("fenceDiagram");
+					wires = document.createElement('img');
+					div.appendChild(wires);
+					wires.src = "barbwire_trans.gif";
+					wires.style = "left: "+postDistance+"px; top: 500px; width: "+postDistance+"px;"
+					console.log("building wires");
 				}
 			}
 		</script>
