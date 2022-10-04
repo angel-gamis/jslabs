@@ -1,10 +1,63 @@
 <html>
 	<body>
 		<form name="photos">
-			<img src="cat.png">
-			<img src="mouse.png">
+			<img name="cat" src="cat.png" width="175" style="position: absolute; left: 200px; top: 100px;">
+			<img id="0" src="mouse.png" width="100">
 		</form>
 		<script>
+			let movex = 200;
+			let movey = 100;
+			let speedx1 = 10;
+			let speedy1 = 10;
+
+			let wallLeft = [];
+			let wallTop = [];
+			let wallStatus = [];
+
+			wallLeft[0] = 1000;
+			wallTop[0] = 500;
+			wallStatus[0] = 1;
+
+			document.onkeydown = checkKeycode;
+
+			function checkKeycode(e){
+				let keycode;
+				if(window.event){
+					keycode = window.event.keyCode;
+				}
+				else if(e){
+					// Grabs keycode (which is the value of the key)
+					keycode = e.which;	
+				}
+
+				// console.log("keycode: " + keycode);
+				
+				// Moves Left
+				if(keycode == 37 || keycode == 65){
+					movex -= speedx1;
+				}
+				// Moves Right
+				if(keycode == 39 || keycode == 68){
+					movex += speedx1;
+				}
+				// Moves Up
+				if(keycode == 38 || keycode == 87){
+					movey -= speedy1;
+				}
+				// Moves Down
+				if(keycode == 40 || keycode == 83){
+					movey += speedy1;
+				}
+				// IDK
+				if(keycode == 32){
+
+				}
+				document.photos.cat.style = "left: " + movex + "px; position: absolute; top: " + movey + "px";
+
+			}
+
+
+			
 		</script>
 	</body>
 </html>
