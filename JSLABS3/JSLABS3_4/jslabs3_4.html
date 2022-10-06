@@ -6,10 +6,10 @@
 				<h4>Client Requirements</h4>
 
 				<p>Fence Length in Feet(Max: 200 feet)</p>
-				<input type="text" name="length" value="" size="7" onchange="calculateFence(document.fenceCalc.length.value, document.fenceCalc.height.value, document.fenceCalc.pricePosts.value, document.fenceCalc.priceWire.value, document.fenceCalc.priceStaples.value, document.fenceCalc.priceLabour.value); buildFence(document.fenceCalc.posts.value, document.fenceCalc.wire.value)"><br>
+				<input type="text" name="length" value="" size="7" onchange="calculateFence(document.fenceCalc.length.value, document.fenceCalc.height.value, document.fenceCalc.pricePosts.value, document.fenceCalc.priceWire.value, document.fenceCalc.priceStaples.value, document.fenceCalc.priceLabour.value); buildFence(document.fenceCalc.posts.value, document.fenceCalc.height.value)"><br>
 
 				<p>Barbed Wire Height in Strands(2-5)</p>
-				<input type="text" name="height" value="" size="7" onchange="calculateFence(document.fenceCalc.length.value, document.fenceCalc.height.value, document.fenceCalc.pricePosts.value, document.fenceCalc.priceWire.value, document.fenceCalc.priceStaples.value, document.fenceCalc.priceLabour.value);  buildFence(document.fenceCalc.posts.value, document.fenceCalc.wire.value)">
+				<input type="text" name="height" value="" size="7" onchange="calculateFence(document.fenceCalc.length.value, document.fenceCalc.height.value, document.fenceCalc.pricePosts.value, document.fenceCalc.priceWire.value, document.fenceCalc.priceStaples.value, document.fenceCalc.priceLabour.value);  buildFence(document.fenceCalc.posts.value, document.fenceCalc.height.value)">
 			</div><br><br>
 
 			<div style="background-color: #fcfcf6; width: 30%; display: block; margin: auto; border-radius: 5px; padding: 1px 10px 3px 10px;">
@@ -63,6 +63,7 @@
 				console.log("called function");
 
 				let postDistance = 45;
+				let strandy = 800;
 
 				// Build Posts
 				for(i=1;i<=posts;i++){
@@ -70,18 +71,83 @@
 					fence = document.createElement('img');
 					div.appendChild(fence);
 					fence.src = "fence_post_trans.gif";
-					fence.style = "left: "+postDistance+"px; top: 500px; height: 50px;"
-					console.log("building posts");
+					fence.style = "left: "+postDistance+"px; top: 800px; height: 50px; position: absolute;"
+					//console.log("building posts");
+
+					postDistance = postDistance + 45;
 				}
+
 				// Build Wires
-				for(i=1;i<=strands;i++){
-					div = document.getElementById("fenceDiagram");
-					wires = document.createElement('img');
-					div.appendChild(wires);
-					wires.src = "barbwire_trans.gif";
-					wires.style = "left: "+postDistance+"px; top: 500px; width: "+postDistance+"px;"
-					console.log("building wires");
-				}
+					for(i=1;i<=strands;i++){
+						postDistance2 = 45;
+						div = document.getElementById("fenceDiagram");
+						wires = document.createElement('img');
+	
+						if(i<posts){
+							
+							console.log("strands: "+strands+" i: "+ i);
+							
+							// 2 Strands
+							if(strands == 2 && i == 1){
+								strandy = 815;
+								console.log("built1");
+							}
+							if(strands == 2 && i == 2){
+								strandy = 835;
+								console.log("built2");
+							}
+
+							// 3 Strands
+							if(strands == 3 && i == 1){
+								strandy = 805;
+							}
+							if(strands == 3 && i == 2){
+								strandy = 825;
+							}
+							if(strands == 3 && i == 3){
+								strandy = 845;
+							}
+
+							// 4 Strands
+							if(strands == 4 && i == 1){
+								strandy = 804;
+							}
+							if(strands == 4 && i == 2){
+								strandy = 816;
+							}
+							if(strands == 4 && i == 3){
+								strandy = 828;
+							}
+							if(strands == 4 && i == 4){
+								strandy = 840;
+							}
+
+							// 5 Strands
+							if(strands == 5 && i == 1){
+								strandy = 805;
+							}
+							if(strands == 5 && i == 2){
+								strandy = 814;
+							}
+							if(strands == 5 && i == 3){
+								strandy = 823;
+							}
+							if(strands == 5 && i == 4){
+								strandy = 832;
+							}
+							if(strands == 5 && i == 5){
+								strandy = 841;
+							}
+							
+							div.appendChild(wires);
+							wires.src = "barbwire_trans.gif";
+							wires.style = "left: "+postDistance2+"px; top:"+strandy+"px; width: 45px; position: absolute;"	
+							//console.log("building wires");
+							postDistance2 = postDistance2 + 45;
+						}					
+
+					}
+
 			}
 		</script>
 	</body>
