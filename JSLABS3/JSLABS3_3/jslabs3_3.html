@@ -2,7 +2,7 @@
 	<body>
 		<form name="photos">
 			<img name="cat" src="cat.png" width="175" style="position: absolute; left: 200px; top: 100px;">
-			<img id="0" src="mouse.png" width="100">
+			<img id="0" src="mouse.png" width="100" style="position: absolute; left: 1000; top: 500;">
 		</form>
 		<script>
 			let movex = 200;
@@ -48,12 +48,28 @@
 				if(keycode == 40 || keycode == 83){
 					movey += speedy1;
 				}
-				// IDK
+				// IDK Space bar
 				if(keycode == 32){
 
 				}
 				document.photos.cat.style = "left: " + movex + "px; position: absolute; top: " + movey + "px";
+				// Cat Sides
+				let catL = parseInt(document.photos.cat.style.left);
+				let catT = parseInt(document.photos.cat.style.top);
+				let catR = catL + document.photos.cat.width;
+				let catB = catT + document.photos.cat.height;
 
+				for(num=0;num<1;num++){
+				console.log("running for loop");
+				
+				let wallWidth = document.getElementById(String(num)).width;
+				let wallHeight = document.getElementById(String(num)).height;
+
+					if(catL<wallLeft[num] + wallWidth && catR>wallLeft[num] && catT<wallTop[num] + wallHeight && catB>wallTop[num]){
+						console.log("Collision detections");
+						alert("CAT ATE THE MOUSE!");
+					}
+				}
 			}
 
 
