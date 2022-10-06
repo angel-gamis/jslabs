@@ -1,0 +1,99 @@
+<html>
+	<body style="text-align: center;">
+		<h1>Get a random number and win that many prizes!</h1>
+			<div style="margin: auto; outline: 2px solid black; width: 100px; height: 100px; text-align: center; display: flex; justify-content: center; align-items: center;">
+				<h3 id="number" style="font-size: 45;"></h3>
+			</div>
+			<button onclick="generateNumber()">Generate</button>
+			<div id="image">
+
+			</div>
+
+		<script>
+			let photo = false;
+			let photoWidth = 200;
+
+			function generateNumber(){
+				let number = document.getElementById("number");
+				let random;
+				random = Math.floor(5 * Math.random())+1
+				console.log(String(random));
+				number.innerHTML = String(random);
+
+				switch(random){
+					case 1:
+						if(!photo){
+							div = document.getElementById("image");
+							candy = document.createElement('img');
+							div.appendChild(candy);
+							candy.src = "1.gif";
+							candy.width = photoWidth;
+							candy.id = "candy";
+						}
+						photo = true;
+						if(photo) {
+							document.getElementById('candy').src = "1.gif"
+						}
+					break;
+					case 2:
+						if(!photo){
+							div = document.getElementById("image");
+							candy = document.createElement('img');
+							div.appendChild(candy);
+							candy.src = "2.gif";
+							candy.width = photoWidth;
+							candy.id = "candy";
+						}
+						photo = true;
+						if(photo) {
+							document.getElementById('candy').src = "2.gif"
+						}
+					break;
+					case 3:
+						if(!photo){
+								div = document.getElementById("image");
+								candy = document.createElement('img');
+								div.appendChild(candy);
+								candy.src = "3.gif";
+								candy.width = photoWidth;
+								candy.id = "candy";
+							}
+							photo = true;
+							if(photo) {
+								document.getElementById('candy').src = "3.gif"
+							}
+						break;
+						case 4:
+						if(!photo){
+								div = document.getElementById("image");
+								candy = document.createElement('img');
+								div.appendChild(candy);
+								candy.src = "4.gif";
+								candy.width = photoWidth;
+								candy.id = "candy";
+							}
+							photo = true;
+							if(photo) {
+								document.getElementById('candy').src = "4.gif"
+							}
+						break;
+						case 5:
+						if(!photo){
+								div = document.getElementById("image");
+								candy = document.createElement('img');
+								div.appendChild(candy);
+								candy.src = "5.gif";
+								candy.width = photoWidth;
+								candy.id = "candy";
+							}
+							photo = true;
+							if(photo) {
+								document.getElementById('candy').src = "5.gif"
+							}
+						break;
+				}
+			}
+			
+		</script>
+	</body>
+</html>
