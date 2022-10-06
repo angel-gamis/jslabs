@@ -1,0 +1,20 @@
+<html>
+	<body>
+		<h1>Get a random number and win that many prizes!</h1>
+			<div style="outline: 2px solid black; width: 200px; height: 200px; display: flex; text-align: center; justify-content: center; align-content: center;">
+				<h3 id="number"></h3>
+			</div>
+			<button onclick="generateNumber()">Generate</button>
+
+		<script>
+		
+			function generateNumber(){
+				let random;
+				random = Math.floor(5 * Math.random())+1
+				console.log(String(random));
+				document.getElementById("number").innerHTML = String(random);
+			}
+			
+		</script>
+	</body>
+</html>
