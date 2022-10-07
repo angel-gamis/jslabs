@@ -1,0 +1,30 @@
+<html>
+	<head>
+		<title>Tic Tac Toe</title>
+	</head>
+	<body>
+		<form name="form">
+			<div id="board" style="width: 500px; height: 500px; position: relative; display: block; margin: auto;">
+				<img src="tictacBOARD.gif" style="width: 500px; display: block; margin: auto;" >	
+
+				<img id="cell1" src="tictacBLANK.jpg" style="width: 130px; height: 130px; position: absolute; left: 10px; top: 10px;" onclick="decoder(1);">
+				<img id="cell2" src="tictacBLANK.jpg" style="width: 130px; height: 130px; position: absolute; left: 185px; top: 10px;" onclick="decoder(2);">
+				<img id="cell3" src="tictacBLANK.jpg" style="width: 130px; height: 130px; position: absolute; left: 360px; top: 10px;" onclick="decoder(3);">
+				<img id="cell4" src="tictacBLANK.jpg" style="width: 130px; height: 130px; position: absolute; left: 10px; top: 185px;" onclick="decoder(4);">
+				<img id="cell5" src="tictacBLANK.jpg" style="width: 130px; height: 130px; position: absolute; left: 185px; top: 185px;" onclick="decoder(5);">
+				<img id="cell6" src="tictacBLANK.jpg" style="width: 130px; height: 130px; position: absolute; left: 360px; top: 185px;" onclick="decoder(6);">
+				<img id="cell7" src="tictacBLANK.jpg" style="width: 130px; height: 130px; position: absolute; left: 10px; top: 360px;" onclick="decoder(7);">
+				<img id="cell8" src="tictacBLANK.jpg" style="width: 130px; height: 130px; position: absolute; left: 185px; top: 360px;" onclick="decoder(1=8);">
+				<img id="cell9" src="tictacBLANK.jpg" style="width: 130px; height: 130px; position: absolute; left: 360px; top: 360px;" onclick="decoder(9);">
+				
+			</div>
+
+		</form>
+
+		<script>
+			function decoder(boxCell){
+				window.alert(boxCell);
+			}
+		</script>
+	</body>
+</html>
