@@ -4,6 +4,8 @@
 	</head>
 	<body>
 		<form name="form">
+			<img id="status" height="100px" src="player1.gif" style="display: block; margin: auto;">
+			<img width="35px" src="restart.png" style="position: absolute; top: 10px; left: 10px;" onclick="restartGame()">
 			<div id="board" style="width: 500px; height: 500px; position: relative; display: block; margin: auto;">
 				<img src="tictacBOARD.gif" style="width: 500px; display: block; margin: auto;" >	
 
@@ -14,7 +16,7 @@
 				<img id="cell5" src="tictacBLANK.jpg" style="width: 130px; height: 130px; position: absolute; left: 185px; top: 185px;" onclick="decoder(5);">
 				<img id="cell6" src="tictacBLANK.jpg" style="width: 130px; height: 130px; position: absolute; left: 360px; top: 185px;" onclick="decoder(6);">
 				<img id="cell7" src="tictacBLANK.jpg" style="width: 130px; height: 130px; position: absolute; left: 10px; top: 360px;" onclick="decoder(7);">
-				<img id="cell8" src="tictacBLANK.jpg" style="width: 130px; height: 130px; position: absolute; left: 185px; top: 360px;" onclick="decoder(1=8);">
+				<img id="cell8" src="tictacBLANK.jpg" style="width: 130px; height: 130px; position: absolute; left: 185px; top: 360px;" onclick="decoder(8);">
 				<img id="cell9" src="tictacBLANK.jpg" style="width: 130px; height: 130px; position: absolute; left: 360px; top: 360px;" onclick="decoder(9);">
 				
 			</div>
@@ -22,8 +24,103 @@
 		</form>
 
 		<script>
+			const statusTitle = document.getElementById("status");
+			let playerTurn = 1;
+			let cellStatus = [9];
+			let turns = 0;
+			let win = false;
+
+			// Sets All Statuses to 0 at Start
+			for(i=0;i<=9;i++){
+				cellStatus[i] = 0;
+			}
+
 			function decoder(boxCell){
-				window.alert(boxCell);
+				cellStatus[0] = 1;
+				// console.log("Cell: " +boxCell+ " Cell Status: " + cellStatus[boxCell])
+				if(boxCell >= 0 && cellStatus[boxCell] == 0 && !win){
+
+					// Checks Which player it is and sets that symbol
+					if(playerTurn  ==  2){
+						document.getElementById("cell" + String(boxCell)).src = "tictacO.gif";
+						cellStatus[boxCell] = 2; // O
+						statusTitle.src = "player1.gif";
+					}
+					if(playerTurn == 1){
+						document.getElementById("cell" + String(boxCell)).src = "tictacX.gif";
+						cellStatus[boxCell] = 1; // X
+						statusTitle.src = "player2.gif";
+					}
+
+					playerTurn++;
+					turns++;
+
+					// Resets Player Turns to 1
+					if(playerTurn >= 3){
+						playerTurn = 1;
+					}
+
+					// Win Conditions
+					// Horizontals
+					if(cellStatus[1] == cellStatus[2] && cellStatus[2] == cellStatus[3] && cellStatus[1] != 0){
+						statusTitle.src = String(cellStatus[1]) + "wins.gif";
+						win = true;	
+					}
+					if(cellStatus[4] == cellStatus[5] && cellStatus[5] == cellStatus[6] && cellStatus[4] != 0){
+						statusTitle.src = String(cellStatus[4]) + "wins.gif";
+						win = true;
+					}
+					if(cellStatus[7] == cellStatus[8] && cellStatus[8] == cellStatus[9] && cellStatus[7] != 0){
+						statusTitle.src = String(cellStatus[7]) + "wins.gif";
+						win = true;
+					}
+					// Verticals
+					if(cellStatus[1] == cellStatus[4] && cellStatus[4] == cellStatus[7] && cellStatus[1] != 0){
+						statusTitle.src = String(cellStatus[1]) + "wins.gif";
+						win = true;
+					}
+					if(cellStatus[2] == cellStatus[5] && cellStatus[5] == cellStatus[8] && cellStatus[2] != 0){
+						statusTitle.src = String(cellStatus[2]) + "wins.gif";
+						win = true;
+					}
+					if(cellStatus[3] == cellStatus[6] && cellStatus[6] == cellStatus[9] && cellStatus[3] != 0){
+						statusTitle.src = String(cellStatus[3]) + "wins.gif";
+						win = true;
+					}
+					// Diaginals
+					if(cellStatus[1] == cellStatus[5] && cellStatus[5] == cellStatus[9] && cellStatus[1] != 0){
+						statusTitle.src = String(cellStatus[1]) + "wins.gif";
+						win = true;
+					}
+					if(cellStatus[3] == cellStatus[5] && cellStatus[5] == cellStatus[7] && cellStatus[3] != 0){
+						statusTitle.src = String(cellStatus[3]) + "wins.gif";
+						win = true;
+					}
+
+					// Checks If a TIE
+					if(turns == 9 && !win){
+						statusTitle.src = "tie.gif";
+					}
+
+				// END OF IF CELL IS EMPTY STATMENT
+				}
+
+				
+			// END OF DECODER FUNCTION		
+			}
+
+			function restartGame(){
+				// Sets All Statuses to 0
+				for(i=0;i<=9;i++){
+					cellStatus[i] = 0;
+					if(i != 0){
+						document.getElementById("cell" + String(i)).src = "tictacBLANK.jpg";
+					}
+				}
+				statusTitle.src = "player1.gif";
+				playerTurn = 1;
+				turns = 0;
+				win = false;
 			}
 		</script>
 	</body>
