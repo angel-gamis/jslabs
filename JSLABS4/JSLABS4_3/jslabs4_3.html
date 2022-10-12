@@ -1,0 +1,57 @@
+<html>
+	<head>
+		<title>Rock Paper Scissors</title>
+	</head>
+	<body>
+		<h1 style="text-align: center;">Rock Paper Scissors</h1>
+		<p style="text-align: center;">Pick one of the three:</p>
+		<img id="restartBtn" src="">
+		<div style="display: block; margin-left: auto; margin-right: auto; width: 460px;">
+			<img id="rock" width="150px" src="paper_big.jpg" onclick="startMatch(1)">
+			<img id="paper" width="150px" src="rock_big.jpg" onclick="startMatch(2)">
+			<img id="scissors" width="150px" src="scissors_big.jpg" onclick="startMatch(3)">
+		</div>
+		<div id="battle">
+			<h4 id="winStatement"></h4>
+		</div>
+		
+		<script>
+			let computerOptions = [3];
+			let options = [3];
+			const winStatement = document.getElementById("winStatement");
+
+			for(i=0;i<=3;i++){
+				options[i] = 0;
+				computerOptions[i] = 0;
+			}
+			
+			function startMatch(option){
+				// Grabs choice and makes that number in the array have a value of 1;
+				options[option] = 1;
+
+				// ** Computers Logic **
+				let random = Math.floor(3*Math.random())+1;
+				computerOptions[random] = 1;
+				
+
+				// ** Win Logic **
+				//Ties
+				if(computerOptions[1] == options[1] && options[1] != 0 || computerOptions[1] == options[2] && options[2] != 0 || computerOptions[1] == options[3] && options[3] != 0 || computerOptions[2] == options[1] && options[1] != 0 || computerOptions[2] == options[2] && options[2] != 0 || computerOptions[2] == options[3] && options[3] != 0 || computerOptions[3] == options[1] && options[1] != 0 || computerOptions[3] == options[2] && options[2] != 0 || computerOptions[3] == options[3] && options[3] != 0){
+					winStatement.innerHTML = "Tie";
+				}
+
+				console.log("Computer Rock:"+computerOptions[1]+" Paper:"+computerOptions[2]+ " Scissors:"+computerOptions[3]);
+
+			}
+
+			function restartGame(){
+				for(i=0;i<=3;i++){
+					options[i] = 0;
+					computerOptions[i] = 0;
+				}
+			}
+
+		</script>
+	</body>
+
+</html>
