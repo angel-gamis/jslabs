@@ -5,20 +5,24 @@
 	<body>
 		<h1 style="text-align: center;">Rock Paper Scissors</h1>
 		<p style="text-align: center;">Pick one of the three:</p>
-		<img id="restartBtn" src="">
+		<img id="restartBtn" src="restart.png" style="width: 30px; position: absolute; left: 15px; top: 15px;" onclick="restartGame()">
 		<div style="display: block; margin-left: auto; margin-right: auto; width: 460px;">
-			<img id="rock" width="150px" src="paper_big.jpg" onclick="startMatch(1)">
-			<img id="paper" width="150px" src="rock_big.jpg" onclick="startMatch(2)">
+			<img id="rock" width="150px" src="rock_big.jpg" onclick="startMatch(1)">
+			<img id="paper" width="150px" src="paper_big.jpg" onclick="startMatch(2)">
 			<img id="scissors" width="150px" src="scissors_big.jpg" onclick="startMatch(3)">
 		</div>
-		<div id="battle">
-			<h4 id="winStatement"></h4>
+		<h4 style="text-align: center;" id="winStatement"></h4>
+		<div id="" style="width: 500px; margin: auto;">
+			<img id="playersChoice" src="" >
+			<img id="computersChoice" src="">
 		</div>
 		
 		<script>
 			let computerOptions = [3];
 			let options = [3];
 			const winStatement = document.getElementById("winStatement");
+			const playersChoicePhoto = document.getElementById("playersChoice");
+			const computersChoicePhoto = document.getElementById("computersChoice");
 
 			for(i=0;i<=3;i++){
 				options[i] = 0;
@@ -33,14 +37,49 @@
 				let random = Math.floor(3*Math.random())+1;
 				computerOptions[random] = 1;
 				
-
-				// ** Win Logic **
-				//Ties
-				if(computerOptions[1] == options[1] && options[1] != 0 || computerOptions[1] == options[2] && options[2] != 0 || computerOptions[1] == options[3] && options[3] != 0 || computerOptions[2] == options[1] && options[1] != 0 || computerOptions[2] == options[2] && options[2] != 0 || computerOptions[2] == options[3] && options[3] != 0 || computerOptions[3] == options[1] && options[1] != 0 || computerOptions[3] == options[2] && options[2] != 0 || computerOptions[3] == options[3] && options[3] != 0){
-					winStatement.innerHTML = "Tie";
+				// ** Changes images **
+				// player
+				if(options[1] == 1){
+					playersChoicePhoto.src = "sm_rock.jpg";
+					playersChoicePhoto.width = 50;
+				}
+				else if(options[2] == 1){
+					playersChoicePhoto.src = "sm_paper.jpg";
+					playersChoicePhoto.width = 50;
+				}
+				else if(options[3] == 1){
+					playersChoicePhoto.src = "sm_scissors.jpg";
+					playersChoicePhoto.width = 50;
 				}
 
+				// computer
+				if(computerOptions[1] == 1){
+					computersChoicePhoto.src = "sm_rock.jpg";
+					computersChoicePhoto.width = 50;
+				}
+				else if(computerOptions[2] == 1){
+					computersChoicePhoto.src = "sm_paper.jpg";
+					computersChoicePhoto.width = 50;
+				}
+				else if(computerOptions[3] == 1){
+					computersChoicePhoto.src = "sm_scissors.jpg";
+					computersChoicePhoto.width = 50;
+				}
+				
+				// ** Win Logic **
+				//rock beats scissors
+				if(computerOptions[1] == 1 && options[3] == 1){
+					winStatement.innerHTML = "Computer Wins R beats S"
+				}
+
+
+				//Ties
+				// if(computerOptions[1] == options[1] && options[1] != 0 || computerOptions[1] == options[2] && options[2] != 0 || computerOptions[1] == options[3] && options[3] != 0 || computerOptions[2] == options[1] && options[1] != 0 || computerOptions[2] == options[2] && options[2] != 0 || computerOptions[2] == options[3] && options[3] != 0 || computerOptions[3] == options[1] && options[1] != 0 || computerOptions[3] == options[2] && options[2] != 0 || computerOptions[3] == options[3] && options[3] != 0){
+				// 	winStatement.innerHTML = "Tie";
+				// }
+
 				console.log("Computer Rock:"+computerOptions[1]+" Paper:"+computerOptions[2]+ " Scissors:"+computerOptions[3]);
+				console.log("Rock:"+options[1]+" Paper:"+options[2]+ " Scissors:"+options[3]);
 
 			}
 
