@@ -7,18 +7,18 @@
         <!--<img src="fence_war_dot.gif" style="display: flex; justify-content: center; align-items: center;
         margin: auto;" > -->
         <div style="height: 500px; width: 500px; position: relative; display: block; margin: auto;">
-            <img id="1" src="fence_war_grey.gif" style="height: 5px; width: 239px; position: absolute; left: 2px; top: 13px;" onclick="playerTurn()">
-            <img id="2" src="fence_war_grey.gif" style="height: 5px; width: 239px; position: absolute; left: 237px; top: 13px;">
-            <img id="3" src="fence_war_grey.gif" style="height: 239px; width: 5px; position: absolute; left: 13px; top: 5px;">
-            <img id="4" src="fence_war_grey.gif" style="height: 239px; width: 5px; position: absolute; left: 248px; top: 5px;">
-            <img id="5" src="fence_war_grey.gif" style="height: 239px; width: 5px; position: absolute; left: 483px; top: 5px;">
-            <img id="6" src="fence_war_grey.gif" style="height: 5px; width: 239px; position: absolute; left: 2px; top: 248px;">
-            <img id="7" src="fence_war_grey.gif" style="height: 5px; width: 239px; position: absolute; left: 237px; top: 248px;">
-            <img id="8" src="fence_war_grey.gif" style="height: 239px; width: 5px; position: absolute; left: 13px; top: 240px;">
-            <img id="9" src="fence_war_grey.gif" style="height: 239px; width: 5px; position: absolute; left: 248px; top: 240px;">
-            <img id="10" src="fence_war_grey.gif" style="height: 239px; width: 5px; position: absolute; left: 483px; top: 240px;">
-            <img id="11" src="fence_war_grey.gif" style="height: 5px; width: 239px; position: absolute; left: 2px; top: 483px;">
-            <img id="12" src="fence_war_grey.gif" style="height: 5px; width: 239px; position: absolute; left: 237px; top: 483px;">
+            <img id="1" src="fence_war_grey.gif" style="height: 5px; width: 239px; position: absolute; left: 2px; top: 13px;" onclick="turn(1)">
+            <img id="2" src="fence_war_grey.gif" style="height: 5px; width: 239px; position: absolute; left: 237px; top: 13px;" onclick="turn(2)">
+            <img id="3" src="fence_war_grey.gif" style="height: 239px; width: 5px; position: absolute; left: 13px; top: 5px;" onclick="turn(3)">
+            <img id="4" src="fence_war_grey.gif" style="height: 239px; width: 5px; position: absolute; left: 248px; top: 5px;" onclick="turn(4)">
+            <img id="5" src="fence_war_grey.gif" style="height: 239px; width: 5px; position: absolute; left: 483px; top: 5px;" onclick="turn(5)">
+            <img id="6" src="fence_war_grey.gif" style="height: 5px; width: 239px; position: absolute; left: 2px; top: 248px;" onclick="turn(6)">
+            <img id="7" src="fence_war_grey.gif" style="height: 5px; width: 239px; position: absolute; left: 237px; top: 248px;" onclick="turn(7)">
+            <img id="8" src="fence_war_grey.gif" style="height: 239px; width: 5px; position: absolute; left: 13px; top: 240px;" onclick="turn(8)">
+            <img id="9" src="fence_war_grey.gif" style="height: 239px; width: 5px; position: absolute; left: 248px; top: 240px;" onclick="turn(9)">
+            <img id="10" src="fence_war_grey.gif" style="height: 239px; width: 5px; position: absolute; left: 483px; top: 240px;" onclick="turn(10)">
+            <img id="11" src="fence_war_grey.gif" style="height: 5px; width: 239px; position: absolute; left: 2px; top: 483px;" onclick="turn(11)">
+            <img id="12" src="fence_war_grey.gif" style="height: 5px; width: 239px; position: absolute; left: 237px; top: 483px;" onclick="turn(12)">
 
             <img src="fence_war_dot.gif" style="height: 30px; width: 30px; position: absolute; left: 0px;">
             <img src="fence_war_dot.gif" style="height: 30px; width: 30px; position: absolute; left: 235px;">
@@ -32,9 +32,35 @@
         </div>
 
         <script>
-            function playerTurn(){
-                    
-            }
+		playerTurn = 1;
+		lineStatus = [12];
+
+		for(i=1; i <= 12; i++){
+			lineStatus[i] = 0;
+		}
+		
+        	function turn(line){
+			chosenLine = document.getElementById(line);
+			
+			if(lineStatus[line] == 0){
+
+				if(playerTurn == 1){
+					chosenLine.src = "fence_war_red.gif";
+					lineStatus[line] = 1;
+          			}
+				if(playerTurn == 2){
+					chosenLine.src = "fence_war_blue.gif";
+					lineStatus[line] = 2;
+				}
+
+				playerTurn++;
+
+				if(playerTurn >= 3){
+					playerTurn = 1;
+				}
+			}
+		}
+		
         </script>
     </body>
 </html>
