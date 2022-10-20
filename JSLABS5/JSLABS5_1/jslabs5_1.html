@@ -12,15 +12,23 @@
 		</div>
 
 		<div id="screen" style="position: relative; top: 125px; margin: auto; width: 700px; height: 700px; background-color: black;">
-			<img src="player.png" width="20px" style="position: absolute; top: 300px; left: 300px;">
+			<img id="player" src="player.png" width="20px" style="position: absolute; top: 300px; left: 300px;">
 		</div>
 		<img src="arrowKeys.png" width="150px" style="position: absolute; top: 850px; left: 350px;">
 		<canvas>
 		</canvas>
 		<script>
+			// ** Variables **
+			const player = document.getElementById("player");
+
+			// Movement Variables
+			let playerX = 300;
+			let playerY = 300;
+			let moveX = 10;
+			let moveY = 10;
 
 			// ** Checks Key Press ** 
-			document.onkeydown = checkKeycode();
+			document.onkeydown = checkKeycode;
 
 			function checkKeycode(e){
 				let keycode;
@@ -33,17 +41,31 @@
 				}
 
 				console.log("keycode: " + keycode);
+
+				// ** Player Movement **
+				if(keycode == 37 || keycode == 65){
+					playerX -= moveX;
+				}
+
+				if(keycode == 39 || keycode == 68){
+					playerX += moveX;
+				}
+				if(keycode == 38 || keycode == 87){
+					playerY -= moveY;
+				}
+
+				if(keycode == 40 || keycode == 83){
+					playerY += moveY;
+				}
+					
+
+				
+				player.style = "position: absolute; left: " + playerX + "px; top: " + playerY + "px;";
+				console.log("x: " + playerX);
+				console.log("y: " + playerY);
 				
 			}
-		
-			// ** Player Movement **
-			if(keycode == 37){
-				// move left
-			}
-			if(keycode == 39){
-				// move right
-			}
-			
+				
 		</script>
 	</body>
 </html>
