@@ -18,6 +18,31 @@
 		<canvas>
 		</canvas>
 		<script>
+
+			// ** Checks Key Press ** 
+			document.onkeydown = checkKeycode();
+
+			function checkKeycode(e){
+				let keycode;
+			
+				if(window.event){
+					keycode = window.event.keyCode;
+				}
+				else if(e){
+					keycode = e.which;
+				}
+
+				console.log("keycode: " + keycode);
+				
+			}
+		
+			// ** Player Movement **
+			if(keycode == 37){
+				// move left
+			}
+			if(keycode == 39){
+				// move right
+			}
 			
 		</script>
 	</body>
