@@ -24,46 +24,95 @@
 			// Movement Variables
 			let playerX = 300;
 			let playerY = 300;
-			let moveX = 10;
-			let moveY = 10;
+			let moveX = 7;
+			let moveY = 7;
 
 			// ** Checks Key Press ** 
 			document.onkeydown = checkKeycode;
+			document.onkeyup = checkKeycodeUp;
+
+			let Keys = {
+				left: false,
+				right: false,
+				up: false,
+				down: false,
+				space: false
+			}
+
 
 			function checkKeycode(e){
-				let keycode;
-			
-				if(window.event){
-					keycode = window.event.keyCode;
-				}
-				else if(e){
-					keycode = e.which;
-				}
+				let keycode = e.keyCode;
+				e.preventDefault();
 
-				console.log("keycode: " + keycode);
-
-				// ** Player Movement **
 				if(keycode == 37 || keycode == 65){
-					playerX -= moveX;
+					Keys.left = true; // left
 				}
-
 				if(keycode == 39 || keycode == 68){
-					playerX += moveX;
+					Keys.right = true; // Right
 				}
 				if(keycode == 38 || keycode == 87){
-					playerY -= moveY;
+					Keys.up = true; // Up
 				}
 
 				if(keycode == 40 || keycode == 83){
-					playerY += moveY;
+					Keys.down = true; // Down
 				}
-					
+				if(keycode == 32){
+					Keys.space = true; // Space
+				}
 
+				// console.log("keycode: " + keycode);
+				move();
 				
+			}
+
+			function checkKeycodeUp(e){
+				let keycode = e.keyCode;
+				e.preventDefault();
+
+
+				if(keycode == 37 || keycode == 65){
+					Keys.left = false; // left
+				}
+				if(keycode == 39 || keycode == 68){
+					Keys.right = false; // Right
+				}
+				if(keycode == 38 || keycode == 87){
+					Keys.up = false; // Up
+				}
+
+				if(keycode == 40 || keycode == 83){
+					Keys.down = false; // Down
+				}
+				if(keycode == 32){
+					Keys.space = false; // Space
+				}
+
+				move();
+			}
+
+			function move(){
+
+				// ** Player Movement **
+				if(Keys.left == true){
+					playerX -= moveX; // Left
+				}
+				if(Keys.right == true){
+					playerX += moveX; // Right
+				}
+				if(Keys.up == true){
+					playerY -= moveY; // Up
+				}
+
+				if(Keys.down == true){
+					playerY += moveY; // Down
+				}
+
+				if(Keys.space == true){
+					console.log("ATTACK");
+				}
+
 				player.style = "position: absolute; left: " + playerX + "px; top: " + playerY + "px;";
-				console.log("x: " + playerX);
-				console.log("y: " + playerY);
-				
 			}
 				
 		</script>
