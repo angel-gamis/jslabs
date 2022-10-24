@@ -12,20 +12,31 @@
 		</div>
 
 		<div id="screen" style="position: relative; top: 125px; margin: auto; width: 700px; height: 700px; background-color: black;">
-			<img id="player" src="player.png" width="20px" style="position: absolute; top: 300px; left: 300px;">
+			<canvas id="canvas" width="700px" height="700px">
+				<img id="player" src="player.png" width="20px" style="position: absolute; top: 300px; left: 300px;">
+				<img id="arrow" src="arrow.gif">
+				<img id="press" src="press.gif">
+				<img id="startBtn" src="start.gif">
+				<img id="options" src="options.gif">
+				<img id="credits" src="credits.gif">
+			</canvas>
 		</div>
 		<img src="arrowKeys.png" width="150px" style="position: absolute; top: 850px; left: 350px;">
-		<canvas>
-		</canvas>
 		<script>
 			// ** Variables **
 			const player = document.getElementById("player");
+			let canvas = document.getElementById("canvas");
+			let context = canvas.getContext("2d");
+			let start = false;
 
 			// Movement Variables
-			let playerX = 300;
-			let playerY = 300;
+			let playerX = 330;
+			let playerY = 570;
 			let moveX = 7;
 			let moveY = 7;
+			let arrowX = 150;
+			let arrowY = 500;
+			let arrowMove = 50;
 
 			// ** Checks Key Press ** 
 			document.onkeydown = checkKeycode;
@@ -39,6 +50,10 @@
 				space: false
 			}
 
+			window.onload = function(){
+				//context.drawImage(player, playerX, playerY);
+				context.drawImage(arrow, arrowX, arrowY);
+			}
 
 			function checkKeycode(e){
 				let keycode = e.keyCode;
@@ -93,27 +108,54 @@
 
 			function move(){
 
-				// ** Player Movement **
-				if(Keys.left == true){
-					playerX -= moveX; // Left
-				}
-				if(Keys.right == true){
-					playerX += moveX; // Right
-				}
-				if(Keys.up == true){
-					playerY -= moveY; // Up
-				}
+				if(start == true){
+					// ** Player Movement **
+					if(Keys.left == true){
+						playerX -= moveX; // Left
+					}
+					if(Keys.right == true){
+						playerX += moveX; // Right
+					}
+					if(Keys.up == true){
+						playerY -= moveY; // Up
+					}
 
-				if(Keys.down == true){
-					playerY += moveY; // Down
-				}
+					if(Keys.down == true){
+						playerY += moveY; // Down
+					}
 
-				if(Keys.space == true){
-					console.log("ATTACK");
+					if(Keys.space == true){
+						draw();
+					}
 				}
-
-				player.style = "position: absolute; left: " + playerX + "px; top: " + playerY + "px;";
 			}
+
+			function startOptions(){
+					if(Keys.up == true){
+						arrowY -= arrowMove; // Up
+					}
+
+					if(Keys.down == true){
+						arrowY += arrowMove; // Down
+					}
+			}
+
+			function update(){
+				context.clearRect(0,0, 700, 700);
+				if(start == true){
+					context.drawImage(player, playerX, playerY);
+				}
+				if(start == false){
+					context.drawImage(arrow, arrowX, arrowY);
+				}
+			}
+
+			setInterval(update, 50);
+
+			if(start == false){
+				startOptions();
+			}
+
 				
 		</script>
 	</body>
