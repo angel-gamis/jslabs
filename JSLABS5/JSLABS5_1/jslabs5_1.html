@@ -14,6 +14,13 @@
 		<div id="screen" style="position: relative; top: 125px; margin: auto; width: 700px; height: 700px; background-color: black;">
 			<canvas id="canvas" width="700px" height="700px">
 				<img id="player" src="player.png" width="20px" style="position: absolute; top: 300px; left: 300px;">
+				<img id="enemy1" src="enemy1.png">
+				<img id="enemy2" src="enemy1.png">
+				<img id="enemy3" src="enemy1.png">
+				<img id="enemy4" src="enemy1.png">
+				<img id="enemy5" src="enemy1.png">
+				<img id="enemy6" src="enemy1.png">
+
 				<img id="arrow" src="arrow.gif" style="height: 30px; position: absolute;">
 				<img id="press" src="press.gif" style="height: 15px; position: absolute;">
 				<img id="startBtn" src="start.gif" style="height: 15px; position: absolute;">
@@ -21,13 +28,24 @@
 				<img id="credits" src="credits.gif" style="height: 30px; position: absolute;">
 			</canvas>
 		</div>
-		<img src="arrowKeys.png" width="150px" style="position: absolute; top: 850px; left: 350px;">
+		<!--<img src="arrowKeys.png" width="150px" style="position: absolute; top: 850px; left: 350px;">-->
 		<script>
 			// ** Variables **
-			const player = document.getElementById("player");
 			let canvas = document.getElementById("canvas");
 			let context = canvas.getContext("2d");
 			let start = false;
+			let Enemies = [6]
+			for(i=1;i<=6;i++){
+				Enemies.i = "document.getElementById(enemy"+i+")"
+			}
+
+			// Player Variables
+			const player = document.getElementById("player");
+			let playerHealth = 50;
+
+			// Enemy Variables
+			let randomTime = Math.floor((Math.random() * 13) + 1);
+
 
 			// Movement Variables
 			let playerX = 330;
@@ -153,6 +171,18 @@
 				console.log("shoot");
 			}
 
+			function enemies(){
+				console.log("enemie spawn");
+				console.log("interval: " + randomTime);
+				randomTime = Math.floor((Math.random() * 13) + 1);
+				let randomEnemyNumber = Math.floor((Math.random() * 6) + 1);
+				let randomEnemyInnit = Enemies.indexOf(randomEnemyNumber).thisValue;
+				//let randomEnemy = randomEnemyInnit.splice(24, 29);
+				console.log(randomEnemyInnit);
+				//drawImage(randomEnemy, playerX - 100, playerY - 100)
+
+			}
+
 			function update(){
 				if(Keys.space == true && arrowY == startBtnX || Keys.enter == true && arrowY == startBtnX){
 					start = true;
@@ -176,11 +206,11 @@
 			}
 			if(start == false){
 				setInterval(update, 100);
+				setInterval(enemies, randomTime * 1000);
 			}
 			else if(start == true){
 				setInterval(update, 50);
 			}
-
 				
 		</script>
 	</body>
