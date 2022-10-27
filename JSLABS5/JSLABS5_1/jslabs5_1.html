@@ -15,11 +15,11 @@
 			<canvas id="canvas" width="700px" height="700px">
 				<img id="player" src="player.png" width="20px" style="position: absolute; top: 300px; left: 300px;">
 				<img id="enemy1" src="enemy1.png">
-				<img id="enemy2" src="enemy1.png">
-				<img id="enemy3" src="enemy1.png">
-				<img id="enemy4" src="enemy1.png">
-				<img id="enemy5" src="enemy1.png">
-				<img id="enemy6" src="enemy1.png">
+				<img id="enemy2" src="enemy2.png">
+				<img id="enemy3" src="enemy3.png">
+				<img id="enemy4" src="enemy4.png">
+				<img id="enemy5" src="enemy5.png">
+				<img id="enemy6" src="enemy6.png">
 
 				<img id="arrow" src="arrow.gif" style="height: 30px; position: absolute;">
 				<img id="press" src="press.gif" style="height: 15px; position: absolute;">
@@ -34,18 +34,18 @@
 			let canvas = document.getElementById("canvas");
 			let context = canvas.getContext("2d");
 			let start = false;
-			let Enemies = [6]
-			for(i=1;i<=6;i++){
-				Enemies.i = "document.getElementById(enemy"+i+")"
-			}
+			//let Enemies = [6]
+			//for(i=1;i<=6;i++){
+			//	Enemies[i] = String("enemy"+i);
+			//}
 
 			// Player Variables
 			const player = document.getElementById("player");
 			let playerHealth = 50;
 
 			// Enemy Variables
-			let randomTime = Math.floor((Math.random() * 13) + 1);
-
+			let randomTime = Math.floor((Math.random() * 10) + 1);
+			let enemeySpawned = false;
 
 			// Movement Variables
 			let playerX = 330;
@@ -71,12 +71,6 @@
 				space: false,
 				enter: false
 			}
-
-			//window.onload = function(){
-				//context.drawImage(player, playerX, playerY);
-				//context.drawImage(arrow, arrowX, arrowY);
-				//context.drawImage(press, 200, 600);
-			//}
 
 			function checkKeycode(e){
 				let keycode = e.keyCode;
@@ -152,6 +146,13 @@
 				}
 			}
 
+			if(start == false){
+				setInterval(updateGame, 100);
+			}else{
+
+			}
+
+
 			function startOptions(){
 				
 					if(Keys.up == true){
@@ -172,18 +173,22 @@
 			}
 
 			function enemies(){
-				console.log("enemie spawn");
+				console.log("enemie spawned");
 				console.log("interval: " + randomTime);
-				randomTime = Math.floor((Math.random() * 13) + 1);
-				let randomEnemyNumber = Math.floor((Math.random() * 6) + 1);
-				let randomEnemyInnit = Enemies.indexOf(randomEnemyNumber).thisValue;
-				//let randomEnemy = randomEnemyInnit.splice(24, 29);
-				console.log(randomEnemyInnit);
-				//drawImage(randomEnemy, playerX - 100, playerY - 100)
-
+				randomTime = Math.floor((Math.random() * 10) + 1);
+				//let randomEnemyNumber = Math.floor((Math.random() * 6) + 1);
+				//let randomEnemy = String(Enemies[randomEnemyNumber]);
+				//context.drawImage(randomEnemy, 330, 100);
+				context.drawImage(enemy1, 330, 100);
+				enemeySpawned = true;
 			}
 
-			function update(){
+			function startTrue(){
+				setInterval(updateGame, 50);
+				setInterval(enemies, randomTime * 1000);
+			}
+
+			function updateGame(){
 				if(Keys.space == true && arrowY == startBtnX || Keys.enter == true && arrowY == startBtnX){
 					start = true;
 				}
@@ -191,6 +196,9 @@
 				context.clearRect(0,0, 700, 700);
 				if(start == true){
 					context.drawImage(player, playerX, playerY);
+					if(enemeySpawned == true){
+						context.drawImage(enemy1, 330, 100);
+					}
 					if(Keys.space == true){
 						shoot();
 					}
@@ -203,13 +211,10 @@
 					context.drawImage(credits, 275, creditsX, 140, 30);
 					startOptions();
 				}
-			}
-			if(start == false){
-				setInterval(update, 100);
-				setInterval(enemies, randomTime * 1000);
-			}
-			else if(start == true){
-				setInterval(update, 50);
+
+				if(start == true){
+					startTrue();
+				}
 			}
 				
 		</script>
