@@ -34,10 +34,7 @@
 			let canvas = document.getElementById("canvas");
 			let context = canvas.getContext("2d");
 			let start = false;
-			//let Enemies = [6]
-			//for(i=1;i<=6;i++){
-			//	Enemies[i] = String("enemy"+i);
-			//}
+			let startFunction = false;
 
 			// Player Variables
 			const player = document.getElementById("player");
@@ -46,6 +43,24 @@
 			// Enemy Variables
 			let randomTime = Math.floor((Math.random() * 10) + 1);
 			let enemeySpawned = false;
+			let enemyMap = [
+				1,2,3,4,5,6,7,8,9,10
+			]
+			class Enemy {
+				constructor(x, y, health, speed){
+					this.x = x;
+					this.y = y;
+					this.health = health;
+					this.speed = speed;
+				}
+				drawObject(){
+					context.drawImage(enemy1, this.x, this.y);
+				}
+
+				destroy(){
+					
+				}
+			}
 
 			// Movement Variables
 			let playerX = 330;
@@ -144,6 +159,8 @@
 						playerY += moveY; // Down
 					}
 				}
+
+				// Collision
 			}
 
 			if(start == false){
@@ -170,34 +187,54 @@
 
 			function shoot(){
 				console.log("shoot");
+				enemy = enemies();
+				if(enemy.x == playerX){
+					enemy.health = 0;
+				}
+				if (enemy.health == 0){
+					console.log("dead");
+				}
+				console.log(enemy.x + ", "+ enemy.y +", " + enemy.health);
+				console.log(playerX);
 			}
 
 			function enemies(){
-				console.log("enemie spawned");
-				console.log("interval: " + randomTime);
-				randomTime = Math.floor((Math.random() * 10) + 1);
-				//let randomEnemyNumber = Math.floor((Math.random() * 6) + 1);
-				//let randomEnemy = String(Enemies[randomEnemyNumber]);
-				//context.drawImage(randomEnemy, 330, 100);
-				context.drawImage(enemy1, 330, 100);
+				//console.log("enemie spawned");
+				enemy = new Enemy(330, 100, 1, 50);
+				//enemy.y += 100;
+				return enemy;
 				enemeySpawned = true;
 			}
 
 			function startTrue(){
 				setInterval(updateGame, 50);
-				setInterval(enemies, randomTime * 1000);
+				//setInterval(enemies, randomTime * 1000);
 			}
 
 			function updateGame(){
 				if(Keys.space == true && arrowY == startBtnX || Keys.enter == true && arrowY == startBtnX){
 					start = true;
+					if(startFunction == false){
+						startTrue();
+					}
+					
 				}
 
 				context.clearRect(0,0, 700, 700);
 				if(start == true){
 					context.drawImage(player, playerX, playerY);
-					if(enemeySpawned == true){
-						context.drawImage(enemy1, 330, 100);
+					if(enemeySpawned == false){
+						enemies();
+					}
+
+					// Enemy Class Variable
+					enemy = enemies();
+					//console.log(enemy.health)
+					if(enemy.health == 1){
+						enemy.drawObject();
+					}
+					else if(enemy.health == 0){
+						enemy.drawObject(null);
 					}
 					if(Keys.space == true){
 						shoot();
@@ -211,12 +248,8 @@
 					context.drawImage(credits, 275, creditsX, 140, 30);
 					startOptions();
 				}
-
-				if(start == true){
-					startTrue();
-				}
 			}
-				
+			
 		</script>
 	</body>
 </html>
