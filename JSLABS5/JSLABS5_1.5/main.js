@@ -2,6 +2,7 @@ const grid = document.querySelector('.grid');
 let randomAmount;
 let currentPlayerIndex = 350;
 let width = 20;
+let removeThem = false;
 
 for(i = 0; i < 400; i++){
     const square = document.createElement('div');
@@ -12,19 +13,31 @@ const squares = Array.from(document.querySelectorAll('.grid div'));
 
 let alienPositions = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19];
 
-setInterval(drawEnemies, 5000);
+setInterval(drawEnemies, 7000);
+setInterval(randomEnemies, 7000);
+setInterval(moveAliens, 500);
+setInterval(draw, 1);
 
 function randomEnemies(){
     randomAmount = Math.floor((Math.random() * 18) + 1);
 }
 
 function drawEnemies(){
-    console.log('drawn');
-    randomEnemies();
     for(i = 0; i < randomAmount; i++){
         squares[i].classList.add('alien');
     }
-    squares[currentPlayerIndex].classList.add('player');
+}
+
+function removeEnemies(){
+    for(i = 0; i < randomAmount; i++){
+        squares[i].classList.remove('alien');
+    }
+}
+
+
+
+function draw(){
+	squares[currentPlayerIndex].classList.add('player');
 }
 
 // ** Checks Key Press ** 
@@ -114,4 +127,13 @@ function move(){
     //}
 
     squares[currentPlayerIndex].classList.add('player');
+}
+
+function moveAliens(){
+	removeThem = true;
+	console.log('move enmies')
+	removeEnemies();
+	for(i = 0; i < randomAmount; i++){
+		squares[i] += 1;
+    }
 }
