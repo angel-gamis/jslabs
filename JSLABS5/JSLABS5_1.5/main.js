@@ -2,21 +2,17 @@ const grid = document.querySelector('.grid');
 let randomAmount;
 let currentPlayerIndex = 350;
 let width = 20;
-let removeThem = false;
+let alienPositions = [];
+let currentAlienCount;
+let game = true;
 
 for(i = 0; i < 400; i++){
     const square = document.createElement('div');
     grid.appendChild(square);
+	alienPositions[i] = i;
 }
 
 const squares = Array.from(document.querySelectorAll('.grid div'));
-
-let alienPositions = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19];
-
-setInterval(drawEnemies, 7000);
-setInterval(randomEnemies, 7000);
-setInterval(moveAliens, 500);
-setInterval(draw, 1);
 
 function randomEnemies(){
     randomAmount = Math.floor((Math.random() * 18) + 1);
@@ -24,21 +20,30 @@ function randomEnemies(){
 
 function drawEnemies(){
     for(i = 0; i < randomAmount; i++){
-        squares[i].classList.add('alien');
+        squares[alienPositions[i]].classList.add('alien');
     }
 }
 
 function removeEnemies(){
     for(i = 0; i < randomAmount; i++){
-        squares[i].classList.remove('alien');
+        squares[alienPositions[i]].classList.remove('alien');
     }
 }
 
 
 
 function draw(){
-	squares[currentPlayerIndex].classList.add('player');
+	if(game == true){
+		squares[currentPlayerIndex].classList.add('player');
+	}
 }
+
+	setInterval(randomEnemies, 40000);
+	setInterval(moveAliens, 2000);
+	setInterval(draw, 100);    
+
+randomEnemies();
+drawEnemies();
 
 // ** Checks Key Press ** 
 document.onkeydown = checkKeycode;
@@ -107,33 +112,62 @@ function checkKeycodeUp(e){
 }
 
 function move(){
-    squares[currentPlayerIndex].classList.remove('player');
+	if(game == true){
+		squares[currentPlayerIndex].classList.remove('player');
 
-    //if(start == true){
-        // ** Player Movement **
+			// ** Player Movement **
+	
+			if(Keys.left == true && currentPlayerIndex % width != 0){
+				currentPlayerIndex -= 1; // Left
+			}
+			if(Keys.right == true && currentPlayerIndex % width < width - 1){
+				currentPlayerIndex += 1; // Right
+			}
+			if(Keys.up == true && currentPlayerIndex > 20){
+				currentPlayerIndex -= 20; // Up
+			}
+			if(Keys.down == true &&  currentPlayerIndex < 380){
+				currentPlayerIndex += 20; // Down
+			}
+	
+		squares[currentPlayerIndex].classList.add('player');
 
-        if(Keys.left == true && currentPlayerIndex % width != 0){
-            currentPlayerIndex -= 1; // Left
-        }
-        if(Keys.right == true && currentPlayerIndex % width < width - 1){
-            currentPlayerIndex += 1; // Right
-        }
-        if(Keys.up == true && currentPlayerIndex > 20){
-            currentPlayerIndex -= 20; // Up
-        }
-        if(Keys.down == true &&  currentPlayerIndex < 380){
-            currentPlayerIndex += 20; // Down
-        }
-    //}
-
-    squares[currentPlayerIndex].classList.add('player');
+		if(Keys.space == true){
+			shoot();
+		}
+	
+		if(squares[currentPlayerIndex].classList.contains('player') && squares[currentPlayerIndex].classList.contains('alien')){
+			console.log('gameover');
+			image = document.createElement('img');
+			image.setAttribute('src', 'gameover.gif');
+			image.setAttribute('width', '500px');
+			image.setAttribute('style', 'position: absolute; left: 100px; top: 200px;')
+			document.body.appendChild(image);
+			game = false;
+		}
+	}
 }
-
+	
 function moveAliens(){
-	removeThem = true;
-	console.log('move enmies')
-	removeEnemies();
-	for(i = 0; i < randomAmount; i++){
-		squares[i] += 1;
-    }
+	if(game == true){
+		console.log('move enmies');	
+		removeEnemies();
+		for(i = 0; i < randomAmount; i++){
+			alienPositions[i] += 20;
+		}
+		
+		drawEnemies();
+	}
 }
+
+function shoot(e) {
+	let laserId;
+	let currentLaserIndex = currentPlayerIndex;
+	function moveLaser(){
+		squares[currentLaserIndex].classList.remove('laser')
+		squares[currentLaserIndex] -= width;
+	}
+}
+
+
+
