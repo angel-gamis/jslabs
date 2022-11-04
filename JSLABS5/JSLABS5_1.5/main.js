@@ -3,13 +3,16 @@ let randomAmount;
 let currentPlayerIndex = 350;
 let width = 20;
 let alienPositions = [];
+let removedAliens = [];
 let currentAlienCount;
 let game = true;
+let cooldown = false;
 
 for(i = 0; i < 400; i++){
     const square = document.createElement('div');
     grid.appendChild(square);
 	alienPositions[i] = i;
+	removedAliens[i] = i;
 }
 
 const squares = Array.from(document.querySelectorAll('.grid div'));
@@ -20,7 +23,7 @@ function randomEnemies(){
 
 function drawEnemies(){
     for(i = 0; i < randomAmount; i++){
-        squares[alienPositions[i]].classList.add('alien');
+			squares[alienPositions[i]].classList.add('alien');
     }
 }
 
@@ -40,7 +43,7 @@ function draw(){
 
 	setInterval(randomEnemies, 40000);
 	setInterval(moveAliens, 2000);
-	setInterval(draw, 100);    
+	setInterval(draw, 100);   
 
 randomEnemies();
 drawEnemies();
@@ -132,8 +135,12 @@ function move(){
 	
 		squares[currentPlayerIndex].classList.add('player');
 
-		if(Keys.space == true){
+		if(Keys.space == true && cooldown == false){
 			shoot();
+			cooldown = true;
+			setTimeout(function(){
+				cooldown = false;
+			}, 300);
 		}
 	
 		if(squares[currentPlayerIndex].classList.contains('player') && squares[currentPlayerIndex].classList.contains('alien')){
@@ -163,9 +170,23 @@ function moveAliens(){
 function shoot(e) {
 	let laserId;
 	let currentLaserIndex = currentPlayerIndex;
+	setInterval(moveLaser, 100);
 	function moveLaser(){
 		squares[currentLaserIndex].classList.remove('laser')
-		squares[currentLaserIndex] -= width;
+		currentLaserIndex -= width;
+		squares[currentLaserIndex].classList.add('laser');
+
+		//Collision Detection
+		if(squares[currentLaserIndex].classList.contains('alien')){
+			hitIndex = currentLaserIndex;
+			squares[currentLaserIndex].classList.remove('laser');
+			squares[hitIndex].classList.remove('alien');
+			squares[hitIndex].classList.add('boom');
+
+			setTimeout(function(){
+				squares[hitIndex].classList.remove('boom');
+			}, 500)
+		}
 	}
 }
 

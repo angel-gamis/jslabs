@@ -17,3 +17,9 @@
 .player{
     background-image: url('player.png');
 }
+.laser{
+    background-image: url('laser.png');
+}
+.boom{
+    background-image: url('died.png');
+}
