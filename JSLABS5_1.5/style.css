@@ -1,0 +1,29 @@
+body{
+    background-color: blue;
+}
+
+.grid{
+    width: 700px;
+    height: 700px;
+    border: solid black 1px;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: black;
+}
+.grid div {
+    width: 35px; 
+    height: 35px;
+}
+
+.alien{
+    background-image: url('enemy1.png');
+}
+.player{
+    background-image: url('player.png');
+}
+.laser{
+    background-image: url('laser.png');
+}
+.boom{
+    background-image: url('died.png');
+}
