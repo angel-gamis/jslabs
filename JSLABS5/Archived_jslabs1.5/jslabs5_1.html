@@ -1,0 +1,255 @@
+<html>
+	<head>
+		<title>Astro in The Deep Dark</title>
+	</head>
+	<body style="background-color: blue;">
+		<div id="titleBackground" style="display: flex; align-items: center; justify-content: center;">
+			<img src="spaceBackground.jpg" style="width: 700px; height: 250px; position: absolute;">
+		</div>
+		<div id="titleText" style="display: flex; align-items: center; justify-content: center;">
+			<img src="astro.gif" style="width: 275px; position: absolute; margin-top: 40px;">
+			<img src="deepDark.gif" style="width: 300px; position: absolute; margin-top: 85px;">
+		</div>
+
+		<div id="screen" style="position: relative; top: 125px; margin: auto; width: 700px; height: 700px; background-color: black;">
+			<canvas id="canvas" width="700px" height="700px">
+				<img id="player" src="player.png" width="20px" style="position: absolute; top: 300px; left: 300px;">
+				<img id="enemy1" src="enemy1.png">
+				<img id="enemy2" src="enemy2.png">
+				<img id="enemy3" src="enemy3.png">
+				<img id="enemy4" src="enemy4.png">
+				<img id="enemy5" src="enemy5.png">
+				<img id="enemy6" src="enemy6.png">
+
+				<img id="arrow" src="arrow.gif" style="height: 30px; position: absolute;">
+				<img id="press" src="press.gif" style="height: 15px; position: absolute;">
+				<img id="startBtn" src="start.gif" style="height: 15px; position: absolute;">
+				<img id="options" src="options.gif" style="height: 30px; position: absolute;">
+				<img id="credits" src="credits.gif" style="height: 30px; position: absolute;">
+			</canvas>
+		</div>
+		<!--<img src="arrowKeys.png" width="150px" style="position: absolute; top: 850px; left: 350px;">-->
+		<script>
+			// ** Variables **
+			let canvas = document.getElementById("canvas");
+			let context = canvas.getContext("2d");
+			let start = false;
+			let startFunction = false;
+
+			// Player Variables
+			const player = document.getElementById("player");
+			let playerHealth = 50;
+
+			// Enemy Variables
+			let randomTime = Math.floor((Math.random() * 10) + 1);
+			let enemeySpawned = false;
+			let enemyMap = [
+				1,2,3,4,5,6,7,8,9,10
+			]
+			class Enemy {
+				constructor(x, y, health, speed){
+					this.x = x;
+					this.y = y;
+					this.health = health;
+					this.speed = speed;
+				}
+				drawObject(){
+					context.drawImage(enemy1, this.x, this.y);
+				}
+
+				destroy(){
+					
+				}
+			}
+
+			// Movement Variables
+			let playerX = 330;
+			let playerY = 570;
+			let moveX = 7;
+			let moveY = 7;
+			let arrowX = 225;
+			let arrowY = 400;
+			let arrowMove = 100;
+			let startBtnX = 400;
+			let optionsX = 500;
+			let creditsX = 600;
+
+			// ** Checks Key Press ** 
+			document.onkeydown = checkKeycode;
+			document.onkeyup = checkKeycodeUp;
+
+			let Keys = {
+				left: false,
+				right: false,
+				up: false,
+				down: false,
+				space: false,
+				enter: false
+			}
+
+			function checkKeycode(e){
+				let keycode = e.keyCode;
+				e.preventDefault();
+
+				if(keycode == 37 || keycode == 65){
+					Keys.left = true; // left
+				}
+				if(keycode == 39 || keycode == 68){
+					Keys.right = true; // Right
+				}
+				if(keycode == 38 || keycode == 87){
+					Keys.up = true; // Up
+				}
+				if(keycode == 40 || keycode == 83){
+					Keys.down = true; // Down
+				}
+				if(keycode == 32){
+					Keys.space = true; // Space
+				}
+				if(keycode == 13){
+					Keys.enter = true; // Enter
+				}
+
+				move();
+				
+			}
+
+			function checkKeycodeUp(e){
+				let keycode = e.keyCode;
+				e.preventDefault();
+
+
+				if(keycode == 37 || keycode == 65){
+					Keys.left = false; // left
+				}
+				if(keycode == 39 || keycode == 68){
+					Keys.right = false; // Right
+				}
+				if(keycode == 38 || keycode == 87){
+					Keys.up = false; // Up
+				}
+				if(keycode == 40 || keycode == 83){
+					Keys.down = false; // Down
+				}
+				if(keycode == 32){
+					Keys.space = false; // Space
+				}
+				if(keycode == 12){
+					Keys.enter = false; // Enter
+				}
+
+				move();
+			}
+
+			function move(){
+
+				if(start == true){
+					// ** Player Movement **
+					if(Keys.left == true){
+						playerX -= moveX; // Left
+					}
+					if(Keys.right == true){
+						playerX += moveX; // Right
+					}
+					if(Keys.up == true){
+						playerY -= moveY; // Up
+					}
+
+					if(Keys.down == true){
+						playerY += moveY; // Down
+					}
+				}
+
+				// Collision
+			}
+
+			if(start == false){
+				setInterval(updateGame, 100);
+			}else{
+
+			}
+
+
+			function startOptions(){
+				
+					if(Keys.up == true){
+						if(arrowY > 400){
+							arrowY -= arrowMove; // Up
+						}
+					}
+
+					if(Keys.down == true){
+						if(arrowY < 600){
+							arrowY += arrowMove; // Down
+						}
+					}
+			}
+
+			function shoot(){
+				console.log("shoot");
+				enemy = enemies();
+				if(enemy.x == playerX){
+					enemy.health = 0;
+				}
+				if (enemy.health == 0){
+					console.log("dead");
+				}
+				console.log(enemy.x + ", "+ enemy.y +", " + enemy.health);
+				console.log(playerX);
+			}
+
+			function enemies(){
+				//console.log("enemie spawned");
+				enemy = new Enemy(330, 100, 1, 50);
+				//enemy.y += 100;
+				return enemy;
+				enemeySpawned = true;
+			}
+
+			function startTrue(){
+				setInterval(updateGame, 50);
+				//setInterval(enemies, randomTime * 1000);
+			}
+
+			function updateGame(){
+				if(Keys.space == true && arrowY == startBtnX || Keys.enter == true && arrowY == startBtnX){
+					start = true;
+					if(startFunction == false){
+						startTrue();
+					}
+					
+				}
+
+				context.clearRect(0,0, 700, 700);
+				if(start == true){
+					context.drawImage(player, playerX, playerY);
+					if(enemeySpawned == false){
+						enemies();
+					}
+
+					// Enemy Class Variable
+					enemy = enemies();
+					//console.log(enemy.health)
+					if(enemy.health == 1){
+						enemy.drawObject();
+					}
+					else if(enemy.health == 0){
+						enemy.drawObject(null);
+					}
+					if(Keys.space == true){
+						shoot();
+					}
+				}
+				if(start == false){
+					context.drawImage(press, 130, 200, 450, 60)
+					context.drawImage(arrow, arrowX, arrowY);
+					context.drawImage(startBtn, 275, startBtnX, 100, 30);
+					context.drawImage(options, 275, optionsX, 140, 30);
+					context.drawImage(credits, 275, creditsX, 140, 30);
+					startOptions();
+				}
+			}
+			
+		</script>
+	</body>
+</html>

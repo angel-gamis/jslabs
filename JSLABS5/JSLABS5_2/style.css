@@ -1,0 +1,20 @@
+body{
+    background-color: grey;
+}
+
+.screen {
+    background-image: url(background.gif);
+    position: relative;
+    width: 482px;
+    height: 640px;
+    margin: auto;
+}
+
+#player{
+    position: absolute;
+    width: 57px;
+    height: 40px;
+    top: 250px;
+    left: 125px;
+    background-image: url(birdrest.gif);
+}
