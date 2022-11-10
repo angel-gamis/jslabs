@@ -218,7 +218,7 @@ function shoot(e) {
 				for (i = 0; i < 400; i++) {
 					alienPositions[i] = i;
 				}
-				alienSpeed += 100;
+				alienSpeed += 950;
 				console.log(alienSpeed);
 				randomEnemies();
 				removedAliens.length = 0;
