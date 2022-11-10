@@ -69,7 +69,7 @@ function checkKeycodeUp(e) {
 
 function move() {
 
-    if (start == true) {
+    if (start == true && playerY > -50) {
         // ** Player Jump **
         if (Keys.up == true) {
             playerY -= playerBoost; // Up
