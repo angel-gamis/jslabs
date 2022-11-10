@@ -1,4 +1,4 @@
-body{
+body {
     background-color: grey;
 }
 
@@ -8,9 +8,10 @@ body{
     width: 482px;
     height: 640px;
     margin: auto;
+    overflow: hidden;
 }
 
-#player{
+#player {
     position: absolute;
     width: 56px;
     height: 50px;
