@@ -1,0 +1,12 @@
+body{
+    background-color: green;
+}
+
+#screen{
+    background-color: grey;
+    width: 600px;
+    height: 600px;
+    position: relative;
+    margin: auto;
+    border: solid black 5px;
+}
