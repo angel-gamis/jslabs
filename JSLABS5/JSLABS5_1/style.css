@@ -9,4 +9,5 @@ body{
     position: relative;
     margin: auto;
     border: solid black 5px;
+    overflow: hidden;
 }

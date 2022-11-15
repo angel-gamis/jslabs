@@ -7,6 +7,10 @@ let rightWall = 556;
 let topWall = 4;
 let bottomWall = 556;
 let bulletSpeed = 20;
+let bulletPositionX = [-10,-10,-10,-10,-10,-10];
+let bulletPositionY = [-10,-10,-10,-10,-10,-10];
+let bulletAngle = [0,0,0,0,0,0];
+setInterval(moveBullet, 50);
 
 // ** Player Settings ** 
 let playerX = 100;
@@ -22,13 +26,14 @@ let hitWallB = false;
 // ** Computer Settings **
 let computerX = 200;
 let computerY = 200;
-let computerSpeed = 15;
+let computerSpeed = 5;
 let computerAngle = 0;
 let computerHitWall = false;
 setInterval(moveComputer, 500);
 
 // ** Checks Key Press ** 
 document.onkeydown = checkKeycode;
+document.onkeypress = checkKeycodePress;
 document.onkeyup = checkKeycodeUp;
 
 let Keys = {
@@ -38,6 +43,10 @@ let Keys = {
 	down: false,
 	space: false,
 	enter: false
+}
+
+function checkKeycodePress(e){
+    let keycode = e.keyCode;
 }
 
 function checkKeycode(e) {
@@ -235,22 +244,59 @@ function moveComputer(){
 
 function shoot(){
     console.log('shoot')
-    let bullet = document.createElement('img');
-    bullet.src = 'shot.gif';
-    bullet.width = 10;
-    bullet.height = 10;
-    bullet.id = 'bullet'
-    screen.appendChild(bullet);
+    let checkShot = 0;
+    let vaildShots = 0;
 
-    moveBullet();
+    while(vaildShots == 0){
+        if(bulletPositionX[checkShot] <= -10) {
+            bulletAngle[checkShot] = playerAngle;
+            bulletPositionX[checkShot] = playerX;
+            bulletPositionY[checkShot] = playerY;
+        }
+        checkShot++;
+        if(checkShot == 6){
+            vaildShots = 1;
+        }
+    }
+    console.log(bulletPositionX);
+    console.log(bulletPositionY);
+    console.log(bulletAngle);
 }
 function moveBullet(){
+
+    for(bullet=0;bullet<=6;bullet++){
+        if(bulletPositionX[bullet] > -10){
+            if(bulletAngle[bullet] == 0 || bulletAngle[bullet] == 45 || bulletAngle[bullet] == 315){
+                bulletPositionY[bullet] -= bulletSpeed;
+            }
+            if(bulletAngle[bullet] == 45 || bulletAngle[bullet] == 90 || bulletAngle[bullet] == 135){
+                bulletPositionX[bullet] += bulletSpeed;
+            }
+            if(bulletAngle[bullet] == 135 || bulletAngle[bullet] == 180 || bulletAngle[bullet] == 225){
+                bulletPositionY[bullet] += bulletSpeed;
+            }
+            if(bulletAngle[bullet] == 225 || bulletAngle[bullet] == 270 || bulletAngle[bullet] == 315){
+                bulletPositionX[bullet] -= bulletSpeed;
+            }
+            document.getElementById("shot"+bullet).style = 'position: absolute; left: ' + bulletPositionX[bullet] + 'px; top: ' + bulletPositionY[bullet] + 'px;';
+        }
+        //End of For Loopp
+    }
+
+    /*
     // Move Bullet Till Collision;
     if(playerAngle == 315){
-        document.getElementById('bullet').style = 'position: absolute; left: ' + playerX + 'px; top: ' + playerY + 'px;';
+        bulletPositionX = playerX;
+        bulletPositionY = playerY;
+        document.getElementById('bullet').style = 'position: absolute; left: ' + bulletPositionX + 'px; top: ' + bulletPositionY + 'px;';
     }
     if(playerAngle == 0){
-        document.getElementById('bullet').style = 'position: absolute; left: ' + (playerX + 14) + 'px; top: ' + (playerY - 6) + 'px;';
+        bulletPositionX = playerX + 14;
+        bulletPositionY = playerY - 6;
+        document.getElementById('bullet').style = 'position: absolute; left: ' + bulletPositionX + 'px; top: ' + bulletPositionY + 'px;';
+        while(bullletPositon ){
+
+        }
     }
     if(playerAngle == 45){
         document.getElementById('bullet').style = 'position: absolute; left: ' + (playerX + 29) + 'px; top: ' + (playerY - 1) + 'px;';
@@ -270,4 +316,6 @@ function moveBullet(){
     if(playerAngle == 270){
         document.getElementById('bullet').style = 'position: absolute; left: ' + (playerX - 6) + 'px; top: ' + (playerY + 15) + 'px;';
     }
+    */
+
 }
