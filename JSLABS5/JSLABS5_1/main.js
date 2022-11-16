@@ -7,10 +7,12 @@ let rightWall = 556;
 let topWall = 4;
 let bottomWall = 556;
 let bulletSpeed = 20;
-let bulletPositionX = [-10,-10,-10,-10,-10,-10];
-let bulletPositionY = [-10,-10,-10,-10,-10,-10];
-let bulletAngle = [0,0,0,0,0,0];
+let bulletPositionX = [-10,-10,-10,-10,-10,-10,-10,-10];
+let bulletPositionY = [-10,-10,-10,-10,-10,-10,-10,-10];
+let bulletAngle = [0,0,0,0,0,0,0,0];
 setInterval(moveBullet, 50);
+let checkShot = 0;
+let vaildShots = 0;
 
 // ** Player Settings ** 
 let playerX = 100;
@@ -244,27 +246,32 @@ function moveComputer(){
 
 function shoot(){
     console.log('shoot')
-    let checkShot = 0;
-    let vaildShots = 0;
+    console.log('first: ' + vaildShots);
+    console.log('checkShot: ' + checkShot);
+    vaildShots = 0;
 
     while(vaildShots == 0){
-        if(bulletPositionX[checkShot] <= -10) {
+        checkShot++;
+        if(bulletPositionX[checkShot] <= -10){
             bulletAngle[checkShot] = playerAngle;
             bulletPositionX[checkShot] = playerX;
             bulletPositionY[checkShot] = playerY;
+            vaildShots = 1;
         }
-        checkShot++;
-        if(checkShot == 6){
+        if(checkShot == 5){
             vaildShots = 1;
         }
     }
+
+    console.log(vaildShots);
     console.log(bulletPositionX);
     console.log(bulletPositionY);
     console.log(bulletAngle);
+
 }
 function moveBullet(){
 
-    for(bullet=0;bullet<=6;bullet++){
+    for(bullet=1;bullet<=7;bullet++){
         if(bulletPositionX[bullet] > -10){
             if(bulletAngle[bullet] == 0 || bulletAngle[bullet] == 45 || bulletAngle[bullet] == 315){
                 bulletPositionY[bullet] -= bulletSpeed;
@@ -278,6 +285,13 @@ function moveBullet(){
             if(bulletAngle[bullet] == 225 || bulletAngle[bullet] == 270 || bulletAngle[bullet] == 315){
                 bulletPositionX[bullet] -= bulletSpeed;
             }
+
+            // Checks if bullet leaves screen
+            if(shotAngle[bullet] < 0 || bulletPositionX[bullet] < 0 || bulletPositionY[bullet] < 0){
+                bulletPositionX[bullet] = -10;
+            }
+
+            // Displays bullet
             document.getElementById("shot"+bullet).style = 'position: absolute; left: ' + bulletPositionX[bullet] + 'px; top: ' + bulletPositionY[bullet] + 'px;';
         }
         //End of For Loopp
