@@ -6,13 +6,14 @@ let leftWall = 4;
 let rightWall = 556;
 let topWall = 4;
 let bottomWall = 556;
-let bulletSpeed = 20;
+let bulletSpeed = 1;
 let bulletPositionX = [-10,-10,-10,-10,-10,-10,-10,-10];
 let bulletPositionY = [-10,-10,-10,-10,-10,-10,-10,-10];
 let bulletAngle = [0,0,0,0,0,0,0,0];
-setInterval(moveBullet, 50);
 let checkShot = 0;
 let vaildShots = 0;
+setInterval(moveBullet, .01);
+setInterval(checkColision, .005)
 
 // ** Player Settings ** 
 let playerX = 100;
@@ -24,7 +25,6 @@ let hitWallL = false;
 let hitWallT = false;
 let hitWallB = false;
 
-
 // ** Computer Settings **
 let computerX = 200;
 let computerY = 200;
@@ -35,7 +35,6 @@ setInterval(moveComputer, 500);
 
 // ** Checks Key Press ** 
 document.onkeydown = checkKeycode;
-document.onkeypress = checkKeycodePress;
 document.onkeyup = checkKeycodeUp;
 
 let Keys = {
@@ -45,10 +44,6 @@ let Keys = {
 	down: false,
 	space: false,
 	enter: false
-}
-
-function checkKeycodePress(e){
-    let keycode = e.keyCode;
 }
 
 function checkKeycode(e) {
@@ -151,75 +146,102 @@ function move() {
         }
 	}
 
-        // Move Backwards
-		if (Keys.down == true) {
-            if(playerAngle == 0){
-                playerY += playerSpeed;
-            }
-			if(playerAngle == 45){
-                playerY += playerSpeed;
-                playerX -= playerSpeed;
-            }
-            if(playerAngle == 90){
-                playerX -= playerSpeed;
-            }
-            if(playerAngle == 135){
-                playerY -= playerSpeed;
-                playerX -= playerSpeed;
-            }
-            if(playerAngle == 180){
-                playerY -= playerSpeed;
-            }
-            if(playerAngle == 225){
-                playerY -= playerSpeed;
-                playerX += playerSpeed;
-            }
-            if(playerAngle == 270){
-                playerX += playerSpeed;
-            }
-            if(playerAngle == 315){
-                playerY += playerSpeed;
-                playerX += playerSpeed;
-            }
-		}
+    // Move Backwards
+	if (Keys.down == true) {
+        if(playerAngle == 0){
+            playerY += playerSpeed;
+        }
+		if(playerAngle == 45){
+            playerY += playerSpeed;
+            playerX -= playerSpeed;
+        }
+        if(playerAngle == 90){
+            playerX -= playerSpeed;
+        }
+        if(playerAngle == 135){
+            playerY -= playerSpeed;
+            playerX -= playerSpeed;
+        }
+        if(playerAngle == 180){
+            playerY -= playerSpeed;
+        }
+        if(playerAngle == 225){
+            playerY -= playerSpeed;
+            playerX += playerSpeed;
+        }
+        if(playerAngle == 270){
+            playerX += playerSpeed;
+        }
+        if(playerAngle == 315){
+            playerY += playerSpeed;
+            playerX += playerSpeed;
+        }
+	}
 
-        player.style = "position: absolute; left: " + playerX + "px; top: " + playerY + "px; transform: rotate("+playerAngle+"deg)";
+    player.style = "position: absolute; left: " + playerX + "px; top: " + playerY + "px; transform: rotate("+playerAngle+"deg)";
 
 
-        // Check Collision Walls
+    // Check Collision Walls
 
-        if(playerX >= rightWall){
-            hitWallR = true;
+    if(playerX >= rightWall){
+        hitWallR = true;
+    }
+    else{
+        hitWallR = false;
+    }
+
+    if(playerX <= leftWall){
+        hitWallL = true;
+    }
+    else{
+        hitWallL = false;
+    }
+
+    if(playerY <= topWall){
+        hitWallT = true;
+    }
+    else{
+        hitWallT = false;
+    }
+
+    if(playerY >= bottomWall){
+        hitWallB = true;
+    }
+    else{
+        hitWallB = false;
+    }
+
+    // Shoot
+    if(Keys.space == true){
+        shoot();
+    }
+
+    // -- End of move() --
+}
+
+function checkColision(){
+    for(bullet=1;bullet<=7;bullet++){
+        // Right of Comp
+        if(computerX + 20 == bulletPositionX[bullet] - 5 && bulletPositionY[bullet] >= (computerY - 20) && bulletPositionY[bullet] <= (computerY + 20)){
+            console.log("hit");
+            bulletPositionX[bullet] = -10;
         }
-        else{
-            hitWallR = false;
+        // Left of Comp
+        if(computerX - 20 == bulletPositionX[bullet] + 5 && bulletPositionY[bullet] >= (computerY - 20) && bulletPositionY[bullet] <= (computerY + 20)){
+            console.log("hit");
+        }
+        // Bottom of Comp
+        if(computerY + 20 == bulletPositionY[bullet] - 5 && bulletPositionX[bullet] >= (computerX - 20) && bulletPositionX[bullet] <= (computerX + 20)){
+            console.log("hit");
+        }
+        // Top of Comp
+        if(computerY - 20 == bulletPositionY[bullet] - 5 && bulletPositionX[bullet] >= (computerY - 20) && bulletPositionX[bullet] <= (computerY + 20)){
+            console.log("hit");
         }
 
-        if(playerX <= leftWall){
-            hitWallL = true;
-        }
-        else{
-            hitWallL = false;
-        }
+        // --End of For Loop--
+    }
 
-        if(playerY <= topWall){
-            hitWallT = true;
-        }
-        else{
-            hitWallT = false;
-        }
-
-        if(playerY >= bottomWall){
-            hitWallB = true;
-        }
-        else{
-            hitWallB = false;
-        }
-
-        // Shoot
-        if(Keys.space == true){
-            shoot();
-        }
 }
 
 function moveComputer(){
@@ -256,19 +278,52 @@ function shoot(){
             bulletAngle[checkShot] = playerAngle;
             bulletPositionX[checkShot] = playerX;
             bulletPositionY[checkShot] = playerY;
+
+            // Center Bullet
+            if(playerAngle == 315){
+                // Default
+            }
+            if(playerAngle == 0){
+                bulletPositionX[checkShot] = playerX + 14;
+                bulletPositionY[checkShot] = playerY - 6;
+            }
+            if(playerAngle == 45){
+                bulletPositionX[checkShot] = playerX + 29;
+                bulletPositionY[checkShot] = playerY - 1;
+            }
+            if(playerAngle == 90){
+                bulletPositionX[checkShot] = playerX + 37;
+                bulletPositionY[checkShot] = playerY + 15;
+            }
+            if(playerAngle == 135){
+                bulletPositionX[checkShot] = playerX + 31;
+                bulletPositionY[checkShot] = playerY + 30;
+            }
+            if(playerAngle == 180){
+                bulletPositionX[checkShot] = playerX + 16;
+                bulletPositionY[checkShot] = playerY + 36
+            }
+            if(playerAngle == 225){
+                bulletPositionX[checkShot] = playerX - 1;
+                bulletPositionY[checkShot] = playerY + 29;
+            }
+            if(playerAngle == 270){
+                bulletPositionX[checkShot] = playerX - 6;
+                bulletPositionY[checkShot] = playerY + 15;
+            }
+
             vaildShots = 1;
         }
         if(checkShot == 5){
             vaildShots = 1;
+            checkShot = 0;
         }
     }
 
     console.log(vaildShots);
-    console.log(bulletPositionX);
-    console.log(bulletPositionY);
-    console.log(bulletAngle);
-
+    // --End of Shoot()--
 }
+
 function moveBullet(){
 
     for(bullet=1;bullet<=7;bullet++){
@@ -287,49 +342,15 @@ function moveBullet(){
             }
 
             // Checks if bullet leaves screen
-            if(shotAngle[bullet] < 0 || bulletPositionX[bullet] < 0 || bulletPositionY[bullet] < 0){
+            if(bulletPositionX[bullet] < 0 || bulletPositionY[bullet] < 0 || bulletPositionX[bullet] > 600 || bulletPositionY[bullet] > 600){
                 bulletPositionX[bullet] = -10;
+                console.log("reset bullet")
             }
 
             // Displays bullet
             document.getElementById("shot"+bullet).style = 'position: absolute; left: ' + bulletPositionX[bullet] + 'px; top: ' + bulletPositionY[bullet] + 'px;';
         }
-        //End of For Loopp
+        // --End of For Loop--
     }
-
-    /*
-    // Move Bullet Till Collision;
-    if(playerAngle == 315){
-        bulletPositionX = playerX;
-        bulletPositionY = playerY;
-        document.getElementById('bullet').style = 'position: absolute; left: ' + bulletPositionX + 'px; top: ' + bulletPositionY + 'px;';
-    }
-    if(playerAngle == 0){
-        bulletPositionX = playerX + 14;
-        bulletPositionY = playerY - 6;
-        document.getElementById('bullet').style = 'position: absolute; left: ' + bulletPositionX + 'px; top: ' + bulletPositionY + 'px;';
-        while(bullletPositon ){
-
-        }
-    }
-    if(playerAngle == 45){
-        document.getElementById('bullet').style = 'position: absolute; left: ' + (playerX + 29) + 'px; top: ' + (playerY - 1) + 'px;';
-    }
-    if(playerAngle == 90){
-        document.getElementById('bullet').style = 'position: absolute; left: ' + (playerX + 37) + 'px; top: ' + (playerY + 15) + 'px;';
-    }
-    if(playerAngle == 135){
-        document.getElementById('bullet').style = 'position: absolute; left: ' + (playerX + 31) + 'px; top: ' + (playerY + 30) + 'px;';
-    }
-    if(playerAngle == 180){
-        document.getElementById('bullet').style = 'position: absolute; left: ' + (playerX + 16) + 'px; top: ' + (playerY + 36) + 'px;';
-    }
-    if(playerAngle == 225){
-        document.getElementById('bullet').style = 'position: absolute; left: ' + (playerX) + 'px; top: ' + (playerY + 29) + 'px;';
-    }
-    if(playerAngle == 270){
-        document.getElementById('bullet').style = 'position: absolute; left: ' + (playerX - 6) + 'px; top: ' + (playerY + 15) + 'px;';
-    }
-    */
 
 }
