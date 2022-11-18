@@ -29,10 +29,11 @@ let hitWallB = false;
 // ** Computer Settings **
 let computerX = 200;
 let computerY = 200;
-let computerSpeed = 5;
+let computerSpeed = 1;
 let computerAngle = 0;
 let computerHitWall = false;
-setInterval(moveComputer, 500);
+let computerStatus = true;
+setInterval(moveComputer, 40);
 
 // ** Checks Key Press ** 
 document.onkeydown = checkKeycode;
@@ -223,29 +224,29 @@ function move() {
 function checkColision(){
     for(bullet=1;bullet<=7;bullet++){
         // Right of Comp
-        if(computerX + 20 == bulletPositionX[bullet] - 5 && bulletPositionY[bullet] >= (computerY - 20) && bulletPositionY[bullet] <= (computerY + 20)){
-            console.log("hit");
-            bulletHit[bullet] = true;
-            bulletPositionX[bullet] = -10;
-        }
-        // Left of Comp
-        if(computerX - 20 == bulletPositionX[bullet] + 5 && bulletPositionY[bullet] >= (computerY - 20) && bulletPositionY[bullet] <= (computerY + 20)){
-            console.log("hit");
-            bulletHit[bullet] = true;
-            bulletPositionX[bullet] = -10;
-        }
-        // Bottom of Comp
-        if(computerY + 20 == bulletPositionY[bullet] - 5 && bulletPositionX[bullet] >= (computerX - 20) && bulletPositionX[bullet] <= (computerX + 20)){
-            console.log("hit");
-            bulletHit[bullet] = true;
-            bulletPositionX[bullet] = -10;
-        }
-        // Top of Comp
-        if(computerY - 20 == bulletPositionY[bullet] - 5 && bulletPositionX[bullet] >= (computerY - 20) && bulletPositionX[bullet] <= (computerY + 20)){
-            console.log("hit");
-            bulletHit[bullet] = true;
-            bulletPositionX[bullet] = -10;
-        }
+        // if(computerX + 20 == bulletPositionX[bullet] - 5 && bulletPositionY[bullet] >= (computerY - 20) && bulletPositionY[bullet] <= (computerY + 20)){
+        //     console.log("hit");
+        //     bulletHit[bullet] = true;
+        //     bulletPositionX[bullet] = -10;
+        // }
+        // // Left of Comp
+        // if(computerX - 20 == bulletPositionX[bullet] + 5 && bulletPositionY[bullet] >= (computerY - 20) && bulletPositionY[bullet] <= (computerY + 20)){
+        //     console.log("hit");
+        //     bulletHit[bullet] = true;
+        //     bulletPositionX[bullet] = -10;
+        // }
+        // // Bottom of Comp
+        // if(computerY + 20 == bulletPositionY[bullet] - 5 && bulletPositionX[bullet] >= (computerX - 20) && bulletPositionX[bullet] <= (computerX + 20)){
+        //     console.log("hit");
+        //     bulletHit[bullet] = true;
+        //     bulletPositionX[bullet] = -10;
+        // }
+        // // Top of Comp
+        // if(computerY - 20 == bulletPositionY[bullet] - 5 && bulletPositionX[bullet] >= (computerY - 20) && bulletPositionX[bullet] <= (computerY + 20)){
+        //     console.log("hit");
+        //     bulletHit[bullet] = true;
+        //     bulletPositionX[bullet] = -10;
+        // }
 
         // --End of For Loop--
     }
@@ -254,20 +255,22 @@ function checkColision(){
 
 function moveComputer(){
 
-    // X
-    if(playerX > computerX){
-        computerX += computerSpeed;
-    }
-    else if(playerX < computerX){
-        computerX -= computerSpeed;
-    }
+    if(computerStatus == true){
+        // X
+        if(playerX > computerX){
+            computerX += computerSpeed;
+        }
+        else if(playerX < computerX){
+            computerX -= computerSpeed;
+        }
 
-    // Y
-    if(playerY > computerY){
-        computerY += computerSpeed;
-    }
-    else if(playerY < computerY){
-        computerY -= computerSpeed;
+        // Y
+        if(playerY > computerY){
+            computerY += computerSpeed;
+        }
+        else if(playerY < computerY){
+            computerY -= computerSpeed;
+        }
     }
 
     computer.style = "position: absolute; left: " + computerX + "px; top: " + computerY + "px;"
@@ -282,6 +285,9 @@ function shoot(){
 
     while(vaildShots == 0){
         checkShot++;
+        if(bulletHit[checkShot - 1] == true){
+            bulletHit[(checkShot - 1)] = false;
+        }
         if(bulletPositionX[checkShot] <= -10){
             bulletAngle[checkShot] = playerAngle;
             bulletPositionX[checkShot] = playerX;
@@ -328,7 +334,7 @@ function shoot(){
         }
     }
 
-    console.log(vaildShots);
+    console.log(bulletHit);
     // --End of Shoot()--
 }
 
@@ -352,8 +358,60 @@ function moveBullet(){
             // Checks if bullet leaves screen
             if(bulletPositionX[bullet] < 0 || bulletPositionY[bullet] < 0 || bulletPositionX[bullet] > 600 || bulletPositionY[bullet] > 600){
                 bulletPositionX[bullet] = -10;
-                //console.log("reset bullet")
             }
+
+            // ** Check Collision **
+
+            // Right of Comp
+            if(computerX + 20 == bulletPositionX[bullet] - 5 && bulletPositionY[bullet] >= (computerY - 20) && bulletPositionY[bullet] <= (computerY + 20)){
+                console.log("hit");
+                bulletHit[bullet] = true;
+                bulletPositionX[bullet] = -10;
+                computer.src = "died.png";
+                setTimeout(function(){
+                    computer.src = "greytank.gif";
+                    computerY = 100;
+                    computerX = 100;
+                }, 300)
+            }
+            // Left of Comp
+            if(computerX == bulletPositionX[bullet] + 5 && bulletPositionY[bullet] >= (computerY - 20) && bulletPositionY[bullet] <= (computerY + 20)){
+                console.log("hit");
+                bulletHit[bullet] = true;
+                bulletPositionX[bullet] = -10;
+                computer.src = "died.png";
+                setTimeout(function(){
+                    computer.src = "greytank.gif";
+                    computerY = 100;
+                    computerX = 100;
+                }, 300)
+            }
+            // Bottom of Comp
+            if(computerY + 20 == bulletPositionY[bullet] - 5 && bulletPositionX[bullet] >= (computerX - 20) && bulletPositionX[bullet] <= (computerX + 20)){
+                console.log("hit");
+                bulletHit[bullet] = true;
+                bulletPositionX[bullet] = -10;
+                computer.src = "died.png";
+                setTimeout(function(){
+                    computer.src = "greytank.gif";
+                    computerY = 100;
+                    computerX = 100;
+                }, 300)
+            }
+            // Top of Comp
+            if(computerY - 25 == bulletPositionY[bullet] + 5 && bulletPositionX[bullet] >= (computerY - 20) && bulletPositionX[bullet] <= (computerY + 20)){
+                console.log("hit");
+                bulletHit[bullet] = true;
+                bulletPositionX[bullet] = -10;
+                computer.src = "died.png";
+                setTimeout(function(){
+                    computer.src = "greytank.gif";
+                    computerY = 100;
+                    computerX = 100;
+                }, 300)
+            }
+
+            // --Check Collision--
 
             // Displays bullet
             document.getElementById("shot"+bullet).style = 'position: absolute; left: ' + bulletPositionX[bullet] + 'px; top: ' + bulletPositionY[bullet] + 'px;';
