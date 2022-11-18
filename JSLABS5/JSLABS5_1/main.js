@@ -9,11 +9,12 @@ let bottomWall = 556;
 let bulletSpeed = 1;
 let bulletPositionX = [-10,-10,-10,-10,-10,-10,-10,-10];
 let bulletPositionY = [-10,-10,-10,-10,-10,-10,-10,-10];
+let bulletHit = [false, false, false, false, false, false, false, false]
 let bulletAngle = [0,0,0,0,0,0,0,0];
 let checkShot = 0;
 let vaildShots = 0;
 setInterval(moveBullet, .01);
-setInterval(checkColision, .005)
+setInterval(checkColision, .02)
 
 // ** Player Settings ** 
 let playerX = 100;
@@ -224,19 +225,26 @@ function checkColision(){
         // Right of Comp
         if(computerX + 20 == bulletPositionX[bullet] - 5 && bulletPositionY[bullet] >= (computerY - 20) && bulletPositionY[bullet] <= (computerY + 20)){
             console.log("hit");
+            bulletHit[bullet] = true;
             bulletPositionX[bullet] = -10;
         }
         // Left of Comp
         if(computerX - 20 == bulletPositionX[bullet] + 5 && bulletPositionY[bullet] >= (computerY - 20) && bulletPositionY[bullet] <= (computerY + 20)){
             console.log("hit");
+            bulletHit[bullet] = true;
+            bulletPositionX[bullet] = -10;
         }
         // Bottom of Comp
         if(computerY + 20 == bulletPositionY[bullet] - 5 && bulletPositionX[bullet] >= (computerX - 20) && bulletPositionX[bullet] <= (computerX + 20)){
             console.log("hit");
+            bulletHit[bullet] = true;
+            bulletPositionX[bullet] = -10;
         }
         // Top of Comp
         if(computerY - 20 == bulletPositionY[bullet] - 5 && bulletPositionX[bullet] >= (computerY - 20) && bulletPositionX[bullet] <= (computerY + 20)){
             console.log("hit");
+            bulletHit[bullet] = true;
+            bulletPositionX[bullet] = -10;
         }
 
         // --End of For Loop--
@@ -327,7 +335,7 @@ function shoot(){
 function moveBullet(){
 
     for(bullet=1;bullet<=7;bullet++){
-        if(bulletPositionX[bullet] > -10){
+        if(bulletPositionX[bullet] > -10 && bulletHit[bullet] == false){
             if(bulletAngle[bullet] == 0 || bulletAngle[bullet] == 45 || bulletAngle[bullet] == 315){
                 bulletPositionY[bullet] -= bulletSpeed;
             }
@@ -344,7 +352,7 @@ function moveBullet(){
             // Checks if bullet leaves screen
             if(bulletPositionX[bullet] < 0 || bulletPositionY[bullet] < 0 || bulletPositionX[bullet] > 600 || bulletPositionY[bullet] > 600){
                 bulletPositionX[bullet] = -10;
-                console.log("reset bullet")
+                //console.log("reset bullet")
             }
 
             // Displays bullet
