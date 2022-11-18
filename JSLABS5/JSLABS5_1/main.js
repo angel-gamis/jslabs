@@ -1,7 +1,9 @@
 const player = document.getElementById('player');
 const screen = document.getElementById('screen');
+const score = document.getElementById('score');
 
 // ** Game Settings **
+let scoreCount = 0;
 let leftWall = 4;
 let rightWall = 556;
 let topWall = 4;
@@ -14,11 +16,10 @@ let bulletAngle = [0,0,0,0,0,0,0,0];
 let checkShot = 0;
 let vaildShots = 0;
 setInterval(moveBullet, .01);
-setInterval(checkColision, .02)
 
 // ** Player Settings ** 
 let playerX = 100;
-let playerY = 100;
+let playerY = 550;
 let playerSpeed = 12;
 let playerAngle = 0;
 let hitWallR = false;
@@ -27,8 +28,8 @@ let hitWallT = false;
 let hitWallB = false;
 
 // ** Computer Settings **
-let computerX = 200;
-let computerY = 200;
+let computerX = 500;
+let computerY = 100;
 let computerSpeed = 1;
 let computerAngle = 0;
 let computerHitWall = false;
@@ -150,31 +151,31 @@ function move() {
 
     // Move Backwards
 	if (Keys.down == true) {
-        if(playerAngle == 0){
+        if(playerAngle == 0 && hitWallB == false){
             playerY += playerSpeed;
         }
-		if(playerAngle == 45){
+		if(playerAngle == 45 && hitWallB == false && hitWallL == false){
             playerY += playerSpeed;
             playerX -= playerSpeed;
         }
-        if(playerAngle == 90){
+        if(playerAngle == 90 && hitWallL == false){
             playerX -= playerSpeed;
         }
-        if(playerAngle == 135){
+        if(playerAngle == 135 && hitWallL == false && hitWallT == false){
             playerY -= playerSpeed;
             playerX -= playerSpeed;
         }
-        if(playerAngle == 180){
+        if(playerAngle == 180 && hitWallT == false){
             playerY -= playerSpeed;
         }
-        if(playerAngle == 225){
+        if(playerAngle == 225 && hitWallT == false && hitWallR == false){
             playerY -= playerSpeed;
             playerX += playerSpeed;
         }
-        if(playerAngle == 270){
+        if(playerAngle == 270 && hitWallR == false){
             playerX += playerSpeed;
         }
-        if(playerAngle == 315){
+        if(playerAngle == 315 && hitWallR && hitWallB == false){
             playerY += playerSpeed;
             playerX += playerSpeed;
         }
@@ -219,38 +220,6 @@ function move() {
     }
 
     // -- End of move() --
-}
-
-function checkColision(){
-    for(bullet=1;bullet<=7;bullet++){
-        // Right of Comp
-        // if(computerX + 20 == bulletPositionX[bullet] - 5 && bulletPositionY[bullet] >= (computerY - 20) && bulletPositionY[bullet] <= (computerY + 20)){
-        //     console.log("hit");
-        //     bulletHit[bullet] = true;
-        //     bulletPositionX[bullet] = -10;
-        // }
-        // // Left of Comp
-        // if(computerX - 20 == bulletPositionX[bullet] + 5 && bulletPositionY[bullet] >= (computerY - 20) && bulletPositionY[bullet] <= (computerY + 20)){
-        //     console.log("hit");
-        //     bulletHit[bullet] = true;
-        //     bulletPositionX[bullet] = -10;
-        // }
-        // // Bottom of Comp
-        // if(computerY + 20 == bulletPositionY[bullet] - 5 && bulletPositionX[bullet] >= (computerX - 20) && bulletPositionX[bullet] <= (computerX + 20)){
-        //     console.log("hit");
-        //     bulletHit[bullet] = true;
-        //     bulletPositionX[bullet] = -10;
-        // }
-        // // Top of Comp
-        // if(computerY - 20 == bulletPositionY[bullet] - 5 && bulletPositionX[bullet] >= (computerY - 20) && bulletPositionX[bullet] <= (computerY + 20)){
-        //     console.log("hit");
-        //     bulletHit[bullet] = true;
-        //     bulletPositionX[bullet] = -10;
-        // }
-
-        // --End of For Loop--
-    }
-
 }
 
 function moveComputer(){
@@ -364,50 +333,62 @@ function moveBullet(){
 
             // Right of Comp
             if(computerX + 20 == bulletPositionX[bullet] - 5 && bulletPositionY[bullet] >= (computerY - 20) && bulletPositionY[bullet] <= (computerY + 20)){
-                console.log("hit");
+                computerStatus = false;
                 bulletHit[bullet] = true;
                 bulletPositionX[bullet] = -10;
                 computer.src = "died.png";
+                scoreCount++;
+                score.innerHTML = "Score:   " + scoreCount;
                 setTimeout(function(){
-                    computer.src = "greytank.gif";
                     computerY = 100;
                     computerX = 100;
+                    computer.src = "greytank.gif";
+                    computerStatus = true;
                 }, 300)
             }
             // Left of Comp
             if(computerX == bulletPositionX[bullet] + 5 && bulletPositionY[bullet] >= (computerY - 20) && bulletPositionY[bullet] <= (computerY + 20)){
-                console.log("hit");
+                computerStatus = false;
                 bulletHit[bullet] = true;
                 bulletPositionX[bullet] = -10;
                 computer.src = "died.png";
+                scoreCount++;
+                score.innerHTML = "Score:   " + scoreCount;
                 setTimeout(function(){
-                    computer.src = "greytank.gif";
                     computerY = 100;
                     computerX = 100;
+                    computer.src = "greytank.gif";
+                    computerStatus = true;
                 }, 300)
             }
             // Bottom of Comp
             if(computerY + 20 == bulletPositionY[bullet] - 5 && bulletPositionX[bullet] >= (computerX - 20) && bulletPositionX[bullet] <= (computerX + 20)){
-                console.log("hit");
+                computerStatus = false;
                 bulletHit[bullet] = true;
                 bulletPositionX[bullet] = -10;
                 computer.src = "died.png";
+                scoreCount++;
+                score.innerHTML = "Score:   " + scoreCount;
                 setTimeout(function(){
-                    computer.src = "greytank.gif";
                     computerY = 100;
                     computerX = 100;
+                    computer.src = "greytank.gif";
+                    computerStatus = true;
                 }, 300)
             }
             // Top of Comp
             if(computerY - 25 == bulletPositionY[bullet] + 5 && bulletPositionX[bullet] >= (computerY - 20) && bulletPositionX[bullet] <= (computerY + 20)){
-                console.log("hit");
+                computerStatus = false;
                 bulletHit[bullet] = true;
                 bulletPositionX[bullet] = -10;
                 computer.src = "died.png";
+                scoreCount++;
+                score.innerHTML = "Score:   " + scoreCount;
                 setTimeout(function(){
-                    computer.src = "greytank.gif";
                     computerY = 100;
                     computerX = 100;
+                    computer.src = "greytank.gif";
+                    computerStatus = true;
                 }, 300)
             }
 

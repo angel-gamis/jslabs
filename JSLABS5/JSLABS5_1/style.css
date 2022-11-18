@@ -11,3 +11,12 @@ body{
     border: solid black 5px;
     overflow: hidden;
 }
+
+#score{
+    font-family: 'Teko', sans-serif;
+    font-size: 30px;
+    color: white;
+    position: absolute;
+    left: 500px;
+    top: 530px;
+}
