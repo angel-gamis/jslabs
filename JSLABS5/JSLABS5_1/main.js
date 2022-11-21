@@ -1,8 +1,12 @@
 const player = document.getElementById('player');
 const screen = document.getElementById('screen');
 const score = document.getElementById('score');
+const life1 = document.getElementById('playerLife1');
+const life2 = document.getElementById('playerLife2');
+const life3 = document.getElementById('playerLife3');
 
 // ** Game Settings **
+let game = true;
 let scoreCount = 0;
 let leftWall = 4;
 let rightWall = 556;
@@ -18,9 +22,11 @@ let vaildShots = 0;
 setInterval(moveBullet, .01);
 
 // ** Player Settings ** 
+let playerStatus = true;
 let playerX = 100;
 let playerY = 550;
-let playerSpeed = 12;
+let playerLives = 3;
+let playerSpeed = 12; 
 let playerAngle = 0;
 let hitWallR = false;
 let hitWallL = false;
@@ -30,11 +36,12 @@ let hitWallB = false;
 // ** Computer Settings **
 let computerX = 500;
 let computerY = 100;
-let computerSpeed = 1;
+let computerMove = 1;
 let computerAngle = 0;
 let computerHitWall = false;
 let computerStatus = true;
-setInterval(moveComputer, 40);
+let computerSpeed = 40;
+moveComputer();
 
 // ** Checks Key Press ** 
 document.onkeydown = checkKeycode;
@@ -53,24 +60,25 @@ function checkKeycode(e) {
 	let keycode = e.keyCode;
 	e.preventDefault();
 
-	if (keycode == 37 || keycode == 65) {
-		Keys.left = true; // left
-	}
-	if (keycode == 39 || keycode == 68) {
-		Keys.right = true; // Right
-	}
-	if (keycode == 38 || keycode == 87) {
-		Keys.up = true; // Up
-	}
-	if (keycode == 40 || keycode == 83) {
-		Keys.down = true; // Down
-	}
-	if (keycode == 32) {
-		Keys.space = true; // Space
-	}
-	if (keycode == 13) {
-		Keys.enter = true; // Enter
-	}
+    if (keycode == 37 || keycode == 65) {
+        Keys.left = true; // left
+    }
+    if (keycode == 39 || keycode == 68) {
+        Keys.right = true; // Right
+    }
+    if (keycode == 38 || keycode == 87) {
+        Keys.up = true; // Up
+    }
+    if (keycode == 40 || keycode == 83) {
+        Keys.down = true; // Down
+    }
+    if (keycode == 32) {
+        Keys.space = true; // Space
+    }
+    if (keycode == 13) {
+        Keys.enter = true; // Enter
+    }
+
     
         move();
 }
@@ -79,24 +87,24 @@ function checkKeycodeUp(e) {
 	let keycode = e.keyCode;
 	e.preventDefault();
 
-	if (keycode == 37 || keycode == 65) {
-		Keys.left = false; // left
-	}
-	if (keycode == 39 || keycode == 68) {
-		Keys.right = false; // Right
-	}
-	if (keycode == 38 || keycode == 87) {
-		Keys.up = false; // Up
-	}
-	if (keycode == 40 || keycode == 83) {
-		Keys.down = false; // Down
-	}
-	if (keycode == 32) {
-		Keys.space = false; // Space
-	}
-	if (keycode == 12) {
-		Keys.enter = false; // Enter
-	}
+    if (keycode == 37 || keycode == 65) {
+        Keys.left = false; // left
+    }
+    if (keycode == 39 || keycode == 68) {
+        Keys.right = false; // Right
+    }
+    if (keycode == 38 || keycode == 87) {
+        Keys.up = false; // Up
+    }
+    if (keycode == 40 || keycode == 83) {
+        Keys.down = false; // Down
+    }
+    if (keycode == 32) {
+        Keys.space = false; // Space
+    }
+    if (keycode == 12) {
+        Keys.enter = false; // Enter
+    }
 
         move()
 }
@@ -104,13 +112,13 @@ function checkKeycodeUp(e) {
 function move() {
 
     // Change Angle
-	if (Keys.left == true) {
+	if (Keys.left == true && playerStatus == true) {
         playerAngle -= 45;
          if(playerAngle < 0){
             playerAngle = 315
         }
 	}
-	if (Keys.right == true) {
+	if (Keys.right == true && playerStatus == true) {
          playerAngle += 45;
          if(playerAngle > 315){
            playerAngle = 0;
@@ -119,31 +127,31 @@ function move() {
 
      // Move Forward
 	if (Keys.up == true) {
-        if(playerAngle == 0 && hitWallT == false){
+        if(playerAngle == 0 && hitWallT == false && playerStatus == true){
             playerY -= playerSpeed;
         }
 	    if(playerAngle == 45 && hitWallT == false && hitWallR == false){
             playerY -= playerSpeed;
             playerX += playerSpeed;
         }
-        if(playerAngle == 90 && hitWallR == false){
+        if(playerAngle == 90 && hitWallR == false && playerStatus == true){
             playerX += playerSpeed;
         }
-        if(playerAngle == 135 && hitWallR == false && hitWallB == false){
+        if(playerAngle == 135 && hitWallR == false && hitWallB == false && playerStatus == true){
             playerY += playerSpeed;
             playerX += playerSpeed;
         }
-        if(playerAngle == 180 && hitWallB == false){
+        if(playerAngle == 180 && hitWallB == false && playerStatus == true){
             playerY += playerSpeed;
         }
-        if(playerAngle == 225 && hitWallB == false && hitWallL == false){
+        if(playerAngle == 225 && hitWallB == false && hitWallL == false && playerStatus == true){
             playerY += playerSpeed;
             playerX -= playerSpeed;
         }
-        if(playerAngle == 270 && hitWallL == false){
+        if(playerAngle == 270 && hitWallL == false && playerStatus == true){
             playerX -= playerSpeed;
         }
-        if(playerAngle == 315 && hitWallL == false && hitWallT == false){
+        if(playerAngle == 315 && hitWallL == false && hitWallT == false && playerStatus == true){
             playerY -= playerSpeed;
             playerX -= playerSpeed;
         }
@@ -151,31 +159,31 @@ function move() {
 
     // Move Backwards
 	if (Keys.down == true) {
-        if(playerAngle == 0 && hitWallB == false){
+        if(playerAngle == 0 && hitWallB == false && playerStatus == true){
             playerY += playerSpeed;
         }
-		if(playerAngle == 45 && hitWallB == false && hitWallL == false){
+		if(playerAngle == 45 && hitWallB == false && hitWallL == false && playerStatus == true){
             playerY += playerSpeed;
             playerX -= playerSpeed;
         }
-        if(playerAngle == 90 && hitWallL == false){
+        if(playerAngle == 90 && hitWallL == false && playerStatus == true){
             playerX -= playerSpeed;
         }
-        if(playerAngle == 135 && hitWallL == false && hitWallT == false){
+        if(playerAngle == 135 && hitWallL == false && hitWallT == false && playerStatus == true){
             playerY -= playerSpeed;
             playerX -= playerSpeed;
         }
-        if(playerAngle == 180 && hitWallT == false){
+        if(playerAngle == 180 && hitWallT == false && playerStatus == true){
             playerY -= playerSpeed;
         }
-        if(playerAngle == 225 && hitWallT == false && hitWallR == false){
+        if(playerAngle == 225 && hitWallT == false && hitWallR == false && playerStatus == true){
             playerY -= playerSpeed;
             playerX += playerSpeed;
         }
-        if(playerAngle == 270 && hitWallR == false){
+        if(playerAngle == 270 && hitWallR == false && playerStatus == true){
             playerX += playerSpeed;
         }
-        if(playerAngle == 315 && hitWallR && hitWallB == false){
+        if(playerAngle == 315 && hitWallR && hitWallB == false && playerStatus == true){
             playerY += playerSpeed;
             playerX += playerSpeed;
         }
@@ -215,7 +223,7 @@ function move() {
     }
 
     // Shoot
-    if(Keys.space == true){
+    if(Keys.space == true  && playerStatus == true){
         shoot();
     }
 
@@ -227,23 +235,68 @@ function moveComputer(){
     if(computerStatus == true){
         // X
         if(playerX > computerX){
-            computerX += computerSpeed;
+            computerX += computerMove;
         }
         else if(playerX < computerX){
-            computerX -= computerSpeed;
+            computerX -= computerMove;
         }
 
         // Y
         if(playerY > computerY){
-            computerY += computerSpeed;
+            computerY += computerMove;
         }
         else if(playerY < computerY){
-            computerY -= computerSpeed;
+            computerY -= computerMove;
         }
     }
 
     computer.style = "position: absolute; left: " + computerX + "px; top: " + computerY + "px;"
 
+    // ** Player Collision **
+
+    // X Axis of Player
+    if(computerX >= playerX - 40 && computerX <= playerX + 40 && computerY >= playerY - 20 && computerY <= playerY + 20){
+        playerLives--;
+        player.src = "died.png";
+        playerStatus = false;
+        computerStatus = false;
+        setTimeout(function(){
+            playerX = 500;
+            playerY = 500;
+            player.style = "position: absolute; left: " + playerX + "px; top: " + playerY + "px; transform: rotate("+playerAngle+"deg)";
+            player.src = "redtank.gif";
+            playerStatus = true;
+            computerStatus = true;
+        }, 300)
+    }
+    // Y Axis of Player
+    if(computerY >= playerY - 40 && computerY <= playerY + 40 && computerX >= playerX - 20 && computerX <= playerX + 20){
+        playerLives--;
+        player.src = "died.png";
+        playerStatus = false;
+        computerStatus = false;
+        setTimeout(function(){
+            playerX = 500;
+            playerY = 500;
+            player.style = "position: absolute; left: " + playerX + "px; top: " + playerY + "px; transform: rotate("+playerAngle+"deg)";
+            player.src = "redtank.gif";
+            playerStatus = true;
+            computerStatus = true;
+        }, 300)
+    }
+
+    if(playerLives == 2){
+        life3.src = "";
+    }
+    if(playerLives == 1){
+        life2.src = "";
+    }
+    if(playerLives == 0){
+        gameOver();
+    }
+
+    setTimeout(moveComputer, computerSpeed);
+    // -- End of moveComputer()
 }
 
 function shoot(){
@@ -344,6 +397,8 @@ function moveBullet(){
                     computerX = 100;
                     computer.src = "greytank.gif";
                     computerStatus = true;
+                    computerSpeed--;
+                    console.log(computerSpeed);
                 }, 300)
             }
             // Left of Comp
@@ -359,6 +414,8 @@ function moveBullet(){
                     computerX = 100;
                     computer.src = "greytank.gif";
                     computerStatus = true;
+                    computerSpeed--;
+                    console.log(computerSpeed);
                 }, 300)
             }
             // Bottom of Comp
@@ -374,6 +431,8 @@ function moveBullet(){
                     computerX = 100;
                     computer.src = "greytank.gif";
                     computerStatus = true;
+                    computerSpeed--;
+                    console.log(computerSpeed);
                 }, 300)
             }
             // Top of Comp
@@ -389,6 +448,8 @@ function moveBullet(){
                     computerX = 100;
                     computer.src = "greytank.gif";
                     computerStatus = true;
+                    computerSpeed--;
+                    console.log(computerSpeed);
                 }, 300)
             }
 
@@ -399,5 +460,25 @@ function moveBullet(){
         }
         // --End of For Loop--
     }
+
+}
+
+function gameOver(){
+    // death sequence
+    playerStatus = false;
+    computerStatus = false;
+    gameOverTitle = document.createElement('img');
+    gameOverTitle.src = 'gameover.gif';
+    gameOverTitle.width = 400;
+    gameOverTitle.classList = 'gameover'
+    screen.appendChild(gameOverTitle);
+}
+
+function restart(){
+    // restart Sequence
+    game = true;
+    playerLives = 3;
+    scoreCount = 0;
+    score.innerHTML = "Score:   " + scoreCount;
 
 }

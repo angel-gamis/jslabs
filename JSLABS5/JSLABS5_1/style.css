@@ -1,5 +1,5 @@
 body{
-    background-color: green;
+    background-color: #c4bba5;
 }
 
 #screen{
@@ -19,4 +19,38 @@ body{
     position: absolute;
     left: 500px;
     top: 530px;
+}
+
+#title{
+    display: flex;
+    margin: auto;
+    margin-bottom: 5px;
+    padding: 10px 5px 10px 5px;
+    background-color: #3a5734;
+}
+
+#playerLife1{
+    position: absolute;
+    left: 570px;
+    top: 5px;
+}
+#playerLife2{
+    position: absolute;
+    left: 570px;
+    top: 35px;
+}
+#playerLife3{
+    position: absolute;
+    left: 570px;
+    top: 65px;
+}
+
+.restartBtn{
+    display: flex;
+    margin: auto;
+}
+
+.gameover{
+    display: flex;
+    margin: auto;
 }
