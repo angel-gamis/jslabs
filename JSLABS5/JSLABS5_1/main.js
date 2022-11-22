@@ -405,7 +405,7 @@ function moveBullet(){
                     computerX = 100;
                     computer.src = "greytank.gif";
                     computerStatus = true;
-                    computerSpeed--;
+                    computerSpeed -= 4;
                     console.log(computerSpeed);
                 }, 300)
             }
@@ -422,7 +422,7 @@ function moveBullet(){
                     computerX = 100;
                     computer.src = "greytank.gif";
                     computerStatus = true;
-                    computerSpeed--;
+                    computerSpeed -=4;
                     console.log(computerSpeed);
                 }, 300)
             }
