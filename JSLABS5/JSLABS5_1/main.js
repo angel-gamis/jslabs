@@ -1,4 +1,5 @@
 const player = document.getElementById('player');
+const computer = document.getElementById('computer');
 const screen = document.getElementById('screen');
 const score = document.getElementById('score');
 const life1 = document.getElementById('playerLife1');
@@ -20,6 +21,7 @@ let bulletAngle = [0,0,0,0,0,0,0,0];
 let checkShot = 0;
 let vaildShots = 0;
 setInterval(moveBullet, .01);
+let gameOverStatus = false;
 
 // ** Player Settings ** 
 let playerStatus = true;
@@ -78,9 +80,10 @@ function checkKeycode(e) {
     if (keycode == 13) {
         Keys.enter = true; // Enter
     }
-
     
+    if(game == true){
         move();
+    }
 }
 
 function checkKeycodeUp(e) {
@@ -106,7 +109,9 @@ function checkKeycodeUp(e) {
         Keys.enter = false; // Enter
     }
 
+    if(game == true){
         move()
+    }
 }
 
 function move() {
@@ -183,7 +188,7 @@ function move() {
         if(playerAngle == 270 && hitWallR == false && playerStatus == true){
             playerX += playerSpeed;
         }
-        if(playerAngle == 315 && hitWallR && hitWallB == false && playerStatus == true){
+        if(playerAngle == 315 && hitWallR == false && hitWallB == false && playerStatus == true){
             playerY += playerSpeed;
             playerX += playerSpeed;
         }
@@ -232,7 +237,7 @@ function move() {
 
 function moveComputer(){
 
-    if(computerStatus == true){
+    if(computerStatus == true && game == true){
         // X
         if(playerX > computerX){
             computerX += computerMove;
@@ -248,14 +253,15 @@ function moveComputer(){
         else if(playerY < computerY){
             computerY -= computerMove;
         }
+        
+        computer.style = "position: absolute; left: " + computerX + "px; top: " + computerY + "px;"
     }
 
-    computer.style = "position: absolute; left: " + computerX + "px; top: " + computerY + "px;"
 
     // ** Player Collision **
 
     // X Axis of Player
-    if(computerX >= playerX - 40 && computerX <= playerX + 40 && computerY >= playerY - 20 && computerY <= playerY + 20){
+    if(computerX >= playerX - 40 && computerX <= playerX + 40 && computerY >= playerY - 20 && computerY <= playerY + 20 && playerStatus == true){
         playerLives--;
         player.src = "died.png";
         playerStatus = false;
@@ -270,7 +276,7 @@ function moveComputer(){
         }, 300)
     }
     // Y Axis of Player
-    if(computerY >= playerY - 40 && computerY <= playerY + 40 && computerX >= playerX - 20 && computerX <= playerX + 20){
+    if(computerY >= playerY - 40 && computerY <= playerY + 40 && computerX >= playerX - 20 && computerX <= playerX + 20 && playerStatus == true){
         playerLives--;
         player.src = "died.png";
         playerStatus = false;
@@ -291,8 +297,10 @@ function moveComputer(){
     if(playerLives == 1){
         life2.src = "";
     }
-    if(playerLives == 0){
+    if(playerLives == 0 && gameOverStatus == false){
+        life1.src = "";
         gameOver();
+        gameOverStatus = true;
     }
 
     setTimeout(moveComputer, computerSpeed);
@@ -464,21 +472,47 @@ function moveBullet(){
 }
 
 function gameOver(){
-    // death sequence
-    playerStatus = false;
-    computerStatus = false;
-    gameOverTitle = document.createElement('img');
-    gameOverTitle.src = 'gameover.gif';
-    gameOverTitle.width = 400;
-    gameOverTitle.classList = 'gameover'
-    screen.appendChild(gameOverTitle);
+    if(gameOverStatus == false){
+        // death sequence
+        game = false;
+        playerStatus = false;
+        computerStatus = false;
+        restartBtn = document.createElement('img');
+        restartBtn.id = 'restartBtn'
+        restartBtn.src = 'restartBtn.png';
+        restartBtn.classList = 'restartBtn';
+        restartBtn.setAttribute('onclick', 'restart()')
+        gameOverTitle = document.createElement('img');
+        gameOverTitle.id = 'gameOverTitle'
+        gameOverTitle.src = 'gameover.gif';
+        gameOverTitle.width = 400;
+        gameOverTitle.classList = 'gameover'
+        screen.appendChild(gameOverTitle);
+        screen.appendChild(restartBtn);
+    }
 }
 
 function restart(){
     // restart Sequence
-    game = true;
     playerLives = 3;
+    life1.src = "redtank.gif";
+    life2.src = "redtank.gif";
+    life3.src = "redtank.gif";
     scoreCount = 0;
     score.innerHTML = "Score:   " + scoreCount;
+    playerX = 100;
+    playerY = 550;
+    player.style = "position: absolute; left: " + playerX + "px; top: " + playerY + "px; transform: rotate("+playerAngle+"deg)";
+    playerStatus = true;
+    computerX = 500;
+    computerY = 100;
+    computerSpeed = 40;
+    computerStatus = true;
+    game = true;
+    gameOverStatus = false;
 
+    gameOverTitle = document.getElementById('gameOverTitle');
+    restartBtn = document.getElementById('restartBtn');
+    gameOverTitle.remove();
+    restartBtn.remove();
 }
