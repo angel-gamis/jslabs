@@ -2,20 +2,31 @@ const player = document.getElementById('player');
 const grass = document.getElementById('grass');
 const newGrass = document.getElementById('newGrass');
 const screen = document.getElementById('screen');
+const pipeTop = document.getElementById('pipeTop');
+const pipeBottom = document.getElementById('pipeBottom');
+const hole = document.getElementById('hole');
 
 // ** Player Variables **
 let playerAlive = true;
 let playerY = 250;
 let playerMoveStatus = 1;
 let playerBoost = 100;
-let playerFall = 2;
+let playerFall = 3;
 
 // ** Game Settings **
-let start = true;
+let start = false;
 setInterval(playerFalling, 450);
 setInterval(updatePosition, 15);
 setInterval(checkGameStatus, 10);
 let runKeyPress = true;
+
+pipeTop.addEventListener('animationiteration', () => {
+    let randomBottom = Math.floor(298*Math.random())+217;
+    pipeBottom.style = "position: absolute; top: " + randomBottom + "px; left: 396px;";
+    pipeTop.style = "position: absolute; top: " + (randomBottom - 377) + "px; left: 396px;";
+    //bottom 515px max 217 min
+    // top -150px min max 148px 
+})
 
 // ** World Settings **
 let floor = 525;
@@ -27,9 +38,13 @@ let grassDeleteX = -480;
 document.onkeypress = checkKeycode;
 document.onkeyup = checkKeycodeUp;
 
+document.body.onload = function(){
+    player.classList = "start";
+}
+
 let Keys = {
     up: false,
-    space: false
+    click: false,
 }
 
 function checkKeycode(e) {
@@ -39,12 +54,20 @@ function checkKeycode(e) {
     if (!playerAlive) return;
 
     if (keycode == 38 || keycode == 87) {
+        start = true;
+        player.classList = "";
+        pipeTop.classList = "animate";
+        pipeBottom.classList = "animate";
         runKeyPress = false;
         Keys.up = true; // Up
     }
     if (keycode == 32) {
+        start = true;
+        player.classList = "";
+        pipeTop.classList = "animate";
+        pipeBottom.classList = "animate";
         runKeyPress = false;
-        Keys.space = true; // Space
+        Keys.up = true; // Space
     }
 
     move();
@@ -60,7 +83,7 @@ function checkKeycodeUp(e) {
         runKeyPress = true;
     }
     if (keycode == 32) {
-        Keys.space = false; // Space
+        Keys.up = false; // Space
         runKeyPress = true;
     }
 
@@ -79,16 +102,6 @@ function move() {
                 player.style.backgroundImage = 'url(birdrest.gif)'
             }, 600)
         }
-        if (Keys.space == true) {
-            playerY -= playerBoost; // Up
-            playerMoveStatus = 1;
-            player.style.backgroundImage = 'url(birdup1.gif)';
-            setTimeout(function () {
-                player.style.backgroundImage = 'url(birdrest.gif)'
-                console.log("back to rest")
-            }, 600)
-
-        }
     }
     player.style.top = playerY + "px";
     //console.log('position: ' + playerY)
@@ -96,6 +109,7 @@ function move() {
 
 function updatePosition() {
     if (!playerAlive) return;
+    if(!start) return;
     playerY += playerFall;
     player.style.top = playerY + "px";
     if (playerMoveStatus <= 0) {
@@ -127,5 +141,7 @@ function playerFalling() {
 function checkGameStatus() {
     if (playerAlive == false) {
         gameover = document.createElement('img');
+        pipeBottom.classList = "";
+        pipeTop.classList = "";
     }
 }

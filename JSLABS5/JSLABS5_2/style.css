@@ -11,9 +11,44 @@ body {
     overflow: hidden;
 }
 
+#playZone{
+    position: relative;
+    width: 482px;
+    height: 559px;
+    margin: auto;
+    overflow: hidden;
+}
+
 #player {
     position: absolute;
     width: 56px;
     height: 50px;
     left: 125px;
+}
+
+#pipeTop{
+    position: absolute;
+    top: -150px;
+    left: 396px;
+}
+
+.animate{
+    animation: block 1.5s infinite linear;
+}
+
+.start{
+    animation: move 1s linear infinite ;
+}
+
+@keyframes block {
+    0%{left: 482px;}
+    100%{left: -86px;}
+}
+
+@keyframes move {
+    0%{top: 250px;}
+    25%{top: 265px;}
+    50%{top: 280px;}
+    75%{top: 265px;}
+    100%{top: 250px;}
 }
