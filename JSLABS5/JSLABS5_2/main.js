@@ -11,7 +11,7 @@ let playerAlive = true;
 let playerY = 250;
 let playerMoveStatus = 1;
 let playerBoost = 100;
-let playerFall = 3;
+let playerFall = 3.75;
 
 // ** Game Settings **
 let start = false;
