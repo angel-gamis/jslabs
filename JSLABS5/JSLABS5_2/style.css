@@ -24,6 +24,7 @@ body {
     width: 56px;
     height: 50px;
     left: 125px;
+    border: solid black 2px;
 }
 
 #pipeTop{
@@ -35,6 +36,9 @@ body {
 .animate{
     animation: block 1.5s infinite linear;
 }
+.animateExtra{
+    animation: blockB 1.5s infinite linear;
+}
 
 .start{
     animation: move 1s linear infinite ;
@@ -43,6 +47,10 @@ body {
 @keyframes block {
     0%{left: 482px;}
     100%{left: -86px;}
+}
+@keyframes blockB {
+    0%{left: 485px;}
+    100%{left: -83px;}
 }
 
 @keyframes move {

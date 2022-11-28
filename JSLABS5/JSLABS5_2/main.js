@@ -4,11 +4,13 @@ const newGrass = document.getElementById('newGrass');
 const screen = document.getElementById('screen');
 const pipeTop = document.getElementById('pipeTop');
 const pipeBottom = document.getElementById('pipeBottom');
+const pipeExtra = document.getElementById('pipeExtra');
 const hole = document.getElementById('hole');
 
 // ** Player Variables **
 let playerAlive = true;
 let playerY = 250;
+let playerX = 125;
 let playerMoveStatus = 1;
 let playerBoost = 100;
 let playerFall = 3.75;
@@ -24,8 +26,15 @@ pipeTop.addEventListener('animationiteration', () => {
     let randomBottom = Math.floor(298*Math.random())+217;
     pipeBottom.style = "position: absolute; top: " + randomBottom + "px; left: 396px;";
     pipeTop.style = "position: absolute; top: " + (randomBottom - 377) + "px; left: 396px;";
-    //bottom 515px max 217 min
-    // top -150px min max 148px 
+    pipeExtra.style = "position: absolute; top: -500px; left: 399px;";
+    if(randomBottom <= 362){
+       pipeExtra.style = "position: absolute; top: 405px; left: 399px";
+    }
+    if((randomBottom - 377) >= 0){
+        pipeExtra.style = "position: absolute; top: 0px; left: 399px";
+    }
+    // bottom 515px max 217 min (363 &< needs Extra)
+    // top -150px min max 148px (-1 &> needs Extra)
 })
 
 // ** World Settings **
@@ -58,6 +67,7 @@ function checkKeycode(e) {
         player.classList = "";
         pipeTop.classList = "animate";
         pipeBottom.classList = "animate";
+        pipeExtra.classList = "animate";
         runKeyPress = false;
         Keys.up = true; // Up
     }
@@ -66,6 +76,7 @@ function checkKeycode(e) {
         player.classList = "";
         pipeTop.classList = "animate";
         pipeBottom.classList = "animate";
+        pipeExtra.classList = "animateExtra";
         runKeyPress = false;
         Keys.up = true; // Space
     }
@@ -104,7 +115,6 @@ function move() {
         }
     }
     player.style.top = playerY + "px";
-    //console.log('position: ' + playerY)
 }
 
 function updatePosition() {
@@ -130,6 +140,15 @@ function updatePosition() {
 
     newGrassX -= grassSpeed;
     grassX -= grassSpeed;
+
+    let pipeX = parseInt(window.getComputedStyle(pipeBottom).getPropertyValue('left'));
+    console.log(pipeX);
+    // ** Collision Detection **
+    if(playerX + 15 > pipeX)
+    {
+        console.log('dead');
+    }
+
     grass.style = "position: absolute; left: " + grassX + "px; top: 558px;";
     newGrass.style = "position: absolute; left: " + newGrassX + "px; top: 558px;";
 }
@@ -143,5 +162,6 @@ function checkGameStatus() {
         gameover = document.createElement('img');
         pipeBottom.classList = "";
         pipeTop.classList = "";
+        pipeExtra.classList = "";
     }
 }
