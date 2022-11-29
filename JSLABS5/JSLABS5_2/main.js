@@ -6,6 +6,7 @@ const pipeTop = document.getElementById('pipeTop');
 const pipeBottom = document.getElementById('pipeBottom');
 const pipeExtra = document.getElementById('pipeExtra');
 const hole = document.getElementById('hole');
+const div = document.getElementById('div');
 
 // ** Player Variables **
 let playerAlive = true;
@@ -14,12 +15,14 @@ let playerX = 125;
 let playerMoveStatus = 1;
 let playerBoost = 100;
 let playerFall = 3.75;
+let flapCount = 0;
 
 // ** Game Settings **
 let start = false;
 setInterval(playerFalling, 450);
 setInterval(updatePosition, 15);
 setInterval(checkGameStatus, 10);
+setInterval(animateFlap, 125);
 let runKeyPress = true;
 
 pipeTop.addEventListener('animationiteration', () => {
@@ -27,6 +30,7 @@ pipeTop.addEventListener('animationiteration', () => {
     pipeBottom.style = "position: absolute; top: " + randomBottom + "px; left: 396px;";
     pipeTop.style = "position: absolute; top: " + (randomBottom - 377) + "px; left: 396px;";
     pipeExtra.style = "position: absolute; top: -500px; left: 399px;";
+    hole.style = "position: absolute; top:" + (randomBottom - 180) + "px; left: 396px;";
     if(randomBottom <= 362){
        pipeExtra.style = "position: absolute; top: 405px; left: 399px";
     }
@@ -48,7 +52,7 @@ document.onkeypress = checkKeycode;
 document.onkeyup = checkKeycodeUp;
 
 document.body.onload = function(){
-    player.classList = "start";
+    player.classList = "start flap";
 }
 
 let Keys = {
@@ -108,10 +112,10 @@ function move() {
         if (Keys.up == true) {
             playerY -= playerBoost; // Up
             playerMoveStatus = 1;
-            player.style.backgroundImage = 'url(birdup1.gif)';
+            //player.style.backgroundImage = 'url(birdup1.gif)';
             setTimeout(function () {
-                player.style.backgroundImage = 'url(birdrest.gif)'
-            }, 600)
+                //player.style.backgroundImage = 'url(birdrest.gif)'
+            }, 700)
         }
     }
     player.style.top = playerY + "px";
@@ -123,10 +127,10 @@ function updatePosition() {
     playerY += playerFall;
     player.style.top = playerY + "px";
     if (playerMoveStatus <= 0) {
-        player.style.backgroundImage = 'url(birddown1.gif)';
+        //player.style.backgroundImage = 'url(birddown1.gif)';
     }
     if (playerY >= floor) {
-        player.style.backgroundImage = 'url(birddead.gif)';
+        //player.style.backgroundImage = 'url(birddead.gif)';
         playerAlive = false;
     }
 
@@ -142,11 +146,16 @@ function updatePosition() {
     grassX -= grassSpeed;
 
     let pipeX = parseInt(window.getComputedStyle(pipeBottom).getPropertyValue('left'));
-    console.log(pipeX);
+    let pipeTopY = parseInt(window.getComputedStyle(pipeTop).getPropertyValue('top'));
+    let pipeBottomY = parseInt(window.getComputedStyle(pipeBottom).getPropertyValue('top'));
+
     // ** Collision Detection **
-    if(playerX + 15 > pipeX)
+    if(playerX + 15 > pipeX && playerY < (pipeTopY + 195))
     {
-        console.log('dead');
+        playerAlive = false;
+    }
+    if(playerX + 15 > pipeX && playerY > (pipeBottomY)){
+        playerAlive = false;
     }
 
     grass.style = "position: absolute; left: " + grassX + "px; top: 558px;";
@@ -157,9 +166,30 @@ function playerFalling() {
     playerMoveStatus -= .5;
 }
 
+function animateFlap(){
+    flapCount++
+    console.log("flap")
+    if(flapCount == 4){
+        flapCount = 1;
+    }
+
+    switch(flapCount){
+        case 1:
+            player.src = "upflap.png";
+            break;
+        case 2: 
+            player.src = "midflap.png";
+            break;
+        case 3:
+            player.src = "downflap.png";
+
+    }
+}
+
 function checkGameStatus() {
     if (playerAlive == false) {
         gameover = document.createElement('img');
+        gameover.src = 
         pipeBottom.classList = "";
         pipeTop.classList = "";
         pipeExtra.classList = "";
