@@ -19,6 +19,7 @@ let flapCount = 0;
 
 // ** Game Settings **
 let start = false;
+let gameOver = false;
 setInterval(playerFalling, 450);
 setInterval(updatePosition, 15);
 setInterval(checkGameStatus, 10);
@@ -113,9 +114,11 @@ function move() {
             playerY -= playerBoost; // Up
             playerMoveStatus = 1;
             //player.style.backgroundImage = 'url(birdup1.gif)';
+            player.style.transform = "rotate(330deg)"
             setTimeout(function () {
                 //player.style.backgroundImage = 'url(birdrest.gif)'
-            }, 700)
+                player.style.transform = "rotate(0deg)"
+            }, 750)
         }
     }
     player.style.top = playerY + "px";
@@ -128,10 +131,13 @@ function updatePosition() {
     player.style.top = playerY + "px";
     if (playerMoveStatus <= 0) {
         //player.style.backgroundImage = 'url(birddown1.gif)';
+        player.style.transform = "rotate(70deg)"
     }
     if (playerY >= floor) {
         //player.style.backgroundImage = 'url(birddead.gif)';
+        player.style.transform = "rotate(90deg)"
         playerAlive = false;
+        console.log("dead");
     }
 
     // Move grass to beginning
@@ -153,9 +159,11 @@ function updatePosition() {
     if(playerX + 15 > pipeX && playerY < (pipeTopY + 195))
     {
         playerAlive = false;
+        console.log("dead");
     }
     if(playerX + 15 > pipeX && playerY > (pipeBottomY)){
         playerAlive = false;
+        console.log("dead");
     }
 
     grass.style = "position: absolute; left: " + grassX + "px; top: 558px;";
@@ -187,9 +195,13 @@ function animateFlap(){
 }
 
 function checkGameStatus() {
-    if (playerAlive == false) {
-        gameover = document.createElement('img');
-        gameover.src = 
+    console.log(playerAlive)
+    if (playerAlive == false && gameOver == false) {
+        let gameover = document.createElement('img');
+        gameover.src = "scoreBoard.png";
+        gameover.style = "width: 120px; height: auto; display: flex; margin: auto; vertical-align: center;"
+        gameOver = true;
+        screen.appendChild(gameover);
         pipeBottom.classList = "";
         pipeTop.classList = "";
         pipeExtra.classList = "";
