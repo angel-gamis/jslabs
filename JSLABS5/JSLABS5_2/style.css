@@ -19,6 +19,26 @@ body {
     overflow: hidden;
 }
 
+#img-container{
+    position: relative;
+    width: 482px;
+    height: 640px;
+}
+
+.scoreBoard{
+    margin: 0;
+    position: absolute;
+    top: 35%;
+    left: 35%;
+}
+
+.restartBtn{
+    margin: 0;
+    position: absolute;
+    top: 75%;
+    left: 20%;
+}
+
 #player {
     position: absolute;
     background-repeat: no-repeat;

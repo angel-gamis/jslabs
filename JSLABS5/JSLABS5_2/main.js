@@ -2,11 +2,11 @@ const player = document.getElementById('player');
 const grass = document.getElementById('grass');
 const newGrass = document.getElementById('newGrass');
 const screen = document.getElementById('screen');
+const imgContainer = document.getElementById('img-container');
 const pipeTop = document.getElementById('pipeTop');
 const pipeBottom = document.getElementById('pipeBottom');
 const pipeExtra = document.getElementById('pipeExtra');
 const hole = document.getElementById('hole');
-const div = document.getElementById('div');
 
 // ** Player Variables **
 let playerAlive = true;
@@ -199,9 +199,13 @@ function checkGameStatus() {
     if (playerAlive == false && gameOver == false) {
         let gameover = document.createElement('img');
         gameover.src = "scoreBoard.png";
-        gameover.style = "width: 120px; height: auto; display: flex; margin: auto; vertical-align: center;"
+        gameover.classList = "scoreBoard";
+        let restartBtn = document.createElement('img');
+        restartBtn.src = " restartBtn.png";
+        restartBtn.classList = "restartBtn";
         gameOver = true;
-        screen.appendChild(gameover);
+        imgContainer.appendChild(restartBtn);
+        imgContainer.appendChild(gameover);
         pipeBottom.classList = "";
         pipeTop.classList = "";
         pipeExtra.classList = "";
