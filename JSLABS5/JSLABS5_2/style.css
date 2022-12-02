@@ -13,6 +13,7 @@ body {
 
 #playZone{
     position: relative;
+    top: -19px;
     width: 482px;
     height: 559px;
     margin: auto;
@@ -29,14 +30,51 @@ body {
     margin: 0;
     position: absolute;
     top: 35%;
-    left: 35%;
+    left: 37%;
+}
+
+.scoreImg{
+    height: 20.82px;
+    position: absolute;
+    left: 206px;
+    top: 260px;
+}
+
+.bestImg{
+    height: 20.82px;
+    position: absolute;
+    left: 215px;
+    top: 335px;
 }
 
 .restartBtn{
     margin: 0;
     position: absolute;
-    top: 75%;
-    left: 20%;
+    top: 72%;
+    left: 15%;
+}
+
+.shareBtn{
+    margin: 0;
+    position: absolute;
+    top: 72%;
+    left: 55%;
+}
+
+.grow{
+    transition: all .2s ease-in-out;
+}
+
+.grow:hover{
+    transform: scale(1.025);
+}
+
+.restartBtn:hover{
+    filter: brightness(75%);
+}
+
+.shareBtn:hover{
+    filter: brightness(75%);
 }
 
 #player {
@@ -56,10 +94,6 @@ body {
 #hole{
     height: 180px;
     width: 86px;
-}
-
-.transparent{
-    opacity: 0;
 }
 
 .animate{
