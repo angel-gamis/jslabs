@@ -30,6 +30,8 @@ setInterval(updatePosition, 15);
 setInterval(checkGameStatus, 10);
 setInterval(animateFlap, 125);
 let runKeyPress = true;
+let scoreChart = [0];
+let topScore = 0;
 
 pipeTop.addEventListener('animationiteration', () => {
     let randomBottom = Math.floor(298*Math.random())+217;
@@ -46,14 +48,27 @@ pipeTop.addEventListener('animationiteration', () => {
 
     scoreCount++;
     score1.src = String(scoreCount)[0] + ".png"
+    if(String(scoreCount)[1] != undefined){
+        score2.src = String(scoreCount)[1] + '.png';
+    }
+    if(String(scoreCount)[2] != undefined){
+        score3.src = String(scoreCount)[2] + '.png';
+    }
+
+    // Checks Score Count to Change Number of Didgits
     if(scoreCount >= 10 && scoreCount < 100){
         scoreNumbers++;
-        score1.style = "position: absolute; height: 50px; left: 200px; top: 50px;"
-        score2.style = "position: absolute; height: 50px; left: 230px; top: 50px;"
+        score1.style = "position: absolute; height: 50px; left: 210px; top: 50px;";
+        score2.style = "position: absolute; height: 50px; left: 240px; top: 50px;";
     }
     if(scoreCount >= 100){
         scoreNumbers++;
+
+        score1.style = "position: absolute; height: 50px; left: 195px; top: 50px;";
+        score2.style = "height: 50px; position: absolute; left: 225px; top: 50px;";
+        score3.style = "position: absolute; height: 50px; left: 255px; top: 50px;";
     }
+
     // bottom 515px max 217 min (363 &< needs Extra)
     // top -150px min max 148px (-1 &> needs Extra)
 })
@@ -70,7 +85,7 @@ document.onkeyup = checkKeycodeUp;
 
 document.body.onload = function(){
     player.classList = "start flap";
-    score1.style = "height: 50px; position: absolute; left: 215px; top: 50px;"
+    score1.style = "height: 50px; position: absolute; left: 225px; top: 50px;"
 }
 
 let Keys = {
@@ -130,13 +145,14 @@ function move() {
         if (Keys.up == true) {
             playerY -= playerBoost; // Up
             playerMoveStatus = 1;
-            //player.style.backgroundImage = 'url(birdup1.gif)';
             player.style.transform = "rotate(330deg)"
             setTimeout(function () {
-                //player.style.backgroundImage = 'url(birdrest.gif)'
                 player.style.transform = "rotate(0deg)"
             }, 750)
         }
+    }
+    if(!playerAlive && Keys.up == true){
+        restart();
     }
     player.style.top = playerY + "px";
 }
@@ -194,7 +210,6 @@ function playerFalling() {
 function animateFlap(){
     if(!playerAlive) return;
     flapCount++
-    console.log("flap")
     if(flapCount == 4){
         flapCount = 1;
     }
@@ -212,34 +227,39 @@ function animateFlap(){
     }
 }
 
+function checkBest(){
+    for(i=0; i < scoreChart.length; i++){
+        if(topScore < scoreChart[i]){
+            topScore = scoreChart[i];
+        }
+    }
+}
+
 function checkGameStatus() {
     if (playerAlive == false && gameOver == false) {
 
         // - Gameover Board
         let gameover = document.createElement('img');
+        gameover.id = "scoreBoard";
         gameover.src = "scoreBoard.png";
         gameover.classList = "scoreBoard";
 
         // - Score Img
         let scoreImg = document.createElement('img');
+        scoreImg.id = "scoreImg";
         scoreImg.src = "score.png";
         scoreImg.classList = "scoreImg";
 
-        // - Best Img
-        let bestImg = document.createElement('img');
-        bestImg.src = "best.png";
-        bestImg.classList = "bestImg";
-
         // - Score UI
         let scoreUI = document.createElement('img');
-        let scoreUI2 = document.createElement('img');
-        let scoreUI3 = document.createElement('img');
-        let scoreUI4 = document.createElement('img');
+        scoreUI.id = "scoreUI";
         if(scoreNumbers == 1){
             scoreUI.src = scoreCount + ".png";
             scoreUI.style = "height: 35px; position: absolute; left: 235px; top: 290px;";
         }
         if(scoreNumbers == 2){
+            let scoreUI2 = document.createElement('img');
+            scoreUI2.id = "scoreUI2";
             scoreUI.src = String(scoreCount)[0] + ".png";
             scoreUI.style = "height: 35px; position: absolute; left: 220px; top: 290px;";
             scoreUI2.src = String(scoreCount)[1] + ".png";
@@ -247,15 +267,70 @@ function checkGameStatus() {
             console.log(scoreCount);
             scoreUI2.style = "height: 35px; position: absolute; left: 250px; top: 290px;";
         }
+        if(scoreNumbers == 3){
+            let scoreUI3 = document.createElement('img');
+            let scoreUI2 = document.createElement('img');
+            scoreUI3.id = "scoreUI3";
+            scoreUI.src = String(scoreCount)[0] + ".png";
+            scoreUI.style = "height: 35px; position: absolute; left: 205px; top: 290px;";
+            scoreUI2.src = String(scoreCount)[1] + ".png";
+            scoreUI2.style = "height: 35px; position: absolute; left: 235px; top: 290px;";
+            scoreUI3.src = String(scoreCount)[2] + ".png";
+            scoreUI3.style = "height: 35px; position: absolute; left: 270px; top: 290px;";
+            console.log(scoreCount);
+        }
+        
+        // - Best Img
+        let bestImg = document.createElement('img');
+        bestImg.id = "bestImg";
+        bestImg.src = "best.png";
+        bestImg.classList = "bestImg";
+
+
+        scoreChart.push(scoreCount);
+        checkBest();
+        console.log("TOP SCORE: " + topScore);    
+        // Best UI
+        // let bestUI = document.createElement('img');
+        // scoreUI.id = "scoreUI";
+        // if(scoreNumbers == 1){
+        //     scoreUI.src = scoreCount + ".png";
+        //     scoreUI.style = "height: 35px; position: absolute; left: 235px; top: 290px;";
+        // }
+        // if(scoreNumbers == 2){
+        //     let scoreUI2 = document.createElement('img');
+        //     scoreUI2.id = "scoreUI2";
+        //     scoreUI.src = String(scoreCount)[0] + ".png";
+        //     scoreUI.style = "height: 35px; position: absolute; left: 220px; top: 290px;";
+        //     scoreUI2.src = String(scoreCount)[1] + ".png";
+        //     console.log(String(scoreCount)[1]);
+        //     console.log(scoreCount);
+        //     scoreUI2.style = "height: 35px; position: absolute; left: 250px; top: 290px;";
+        // }
+        // if(scoreNumbers == 3){
+        //     let scoreUI3 = document.createElement('img');
+        //     let scoreUI2 = document.createElement('img');
+        //     scoreUI3.id = "scoreUI3";
+        //     scoreUI.src = String(scoreCount)[0] + ".png";
+        //     scoreUI.style = "height: 35px; position: absolute; left: 205px; top: 290px;";
+        //     scoreUI2.src = String(scoreCount)[1] + ".png";
+        //     scoreUI2.style = "height: 35px; position: absolute; left: 235px; top: 290px;";
+        //     scoreUI3.src = String(scoreCount)[2] + ".png";
+        //     scoreUI3.style = "height: 35px; position: absolute; left: 270px; top: 290px;";
+        //     console.log(scoreCount);
+        // }
 
         // - Restart Button
         let restartBtn = document.createElement('img');
+        restartBtn.id = "restartBtn";
         restartBtn.src = "restartBtn.png";
         restartBtn.classList = "restartBtn grow";
+        restartBtn.onclick = restart;
 
         // - Share Button
         let shareBtn = document.createElement('img');
         shareBtn.src = "shareBtn.png";
+        shareBtn.id = "shareBtn";
         shareBtn.classList = "shareBtn grow";
 
         // Game Over is True
@@ -268,6 +343,10 @@ function checkGameStatus() {
         if(scoreNumbers == 2){
             imgContainer.appendChild(scoreUI2);
         }
+        if(scoreNumbers == 3){
+            imgContainer.appendChild(scoreUI2);
+            imgContainer.appendChild(scoreUI3);
+        }
         imgContainer.appendChild(scoreUI);
         imgContainer.appendChild(shareBtn);
         imgContainer.appendChild(restartBtn);
@@ -275,4 +354,30 @@ function checkGameStatus() {
         pipeTop.classList = "";
         pipeExtra.classList = "";
     }
+}
+
+function restart(){
+    
+    document.getElementById('scoreBoard').remove();
+    document.getElementById('scoreImg').remove();
+    document.getElementById('bestImg').remove();
+    document.getElementById('restartBtn').remove();
+    document.getElementById('shareBtn').remove();
+    document.getElementById('scoreUI').remove();
+    if(scoreNumbers == 2){
+        document.getElementById('scoreUI2').remove();
+    }
+    if(scoreNumbers == 3){
+        document.getElementById('scoreUI2').remove();
+        document.getElementById('scoreUI3').remove();
+    }
+
+
+    scoreCount = 0;
+    scoreNumbers = 1;
+    player.classList = "start flap";
+    score1.style = "height: 50px; position: absolute; left: 225px; top: 50px;"
+    playerAlive = true;
+    start = true;
+    gameOver = false;
 }
