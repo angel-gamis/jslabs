@@ -29,6 +29,7 @@ setInterval(playerFalling, 450);
 setInterval(updatePosition, 15);
 setInterval(checkGameStatus, 10);
 setInterval(animateFlap, 125);
+setInterval(debug, 800);
 let runKeyPress = true;
 let scoreChart = [0];
 let topScore = 0;
@@ -170,7 +171,7 @@ function updatePosition() {
         //player.style.backgroundImage = 'url(birddead.gif)';
         player.style.transform = "rotate(90deg)"
         playerAlive = false;
-        console.log("dead");
+        console.log("dead floor");
     }
 
     // Move grass to beginning
@@ -204,6 +205,8 @@ function updatePosition() {
 }
 
 function playerFalling() {
+    if(!playerAlive) return;
+    if(!start) return;
     playerMoveStatus -= .5;
 }
 
@@ -223,8 +226,8 @@ function animateFlap(){
             break;
         case 3:
             player.src = "downflap.png";
-
     }
+
 }
 
 function checkBest(){
@@ -236,7 +239,7 @@ function checkBest(){
 }
 
 function checkGameStatus() {
-    if (playerAlive == false && gameOver == false) {
+    if (playerAlive == false && gameOver == false && start == true) {
 
         // - Gameover Board
         let gameover = document.createElement('img');
@@ -290,35 +293,34 @@ function checkGameStatus() {
         scoreChart.push(scoreCount);
         checkBest();
         console.log("TOP SCORE: " + topScore);    
+
         // Best UI
-        // let bestUI = document.createElement('img');
-        // scoreUI.id = "scoreUI";
-        // if(scoreNumbers == 1){
-        //     scoreUI.src = scoreCount + ".png";
-        //     scoreUI.style = "height: 35px; position: absolute; left: 235px; top: 290px;";
-        // }
-        // if(scoreNumbers == 2){
-        //     let scoreUI2 = document.createElement('img');
-        //     scoreUI2.id = "scoreUI2";
-        //     scoreUI.src = String(scoreCount)[0] + ".png";
-        //     scoreUI.style = "height: 35px; position: absolute; left: 220px; top: 290px;";
-        //     scoreUI2.src = String(scoreCount)[1] + ".png";
-        //     console.log(String(scoreCount)[1]);
-        //     console.log(scoreCount);
-        //     scoreUI2.style = "height: 35px; position: absolute; left: 250px; top: 290px;";
-        // }
-        // if(scoreNumbers == 3){
-        //     let scoreUI3 = document.createElement('img');
-        //     let scoreUI2 = document.createElement('img');
-        //     scoreUI3.id = "scoreUI3";
-        //     scoreUI.src = String(scoreCount)[0] + ".png";
-        //     scoreUI.style = "height: 35px; position: absolute; left: 205px; top: 290px;";
-        //     scoreUI2.src = String(scoreCount)[1] + ".png";
-        //     scoreUI2.style = "height: 35px; position: absolute; left: 235px; top: 290px;";
-        //     scoreUI3.src = String(scoreCount)[2] + ".png";
-        //     scoreUI3.style = "height: 35px; position: absolute; left: 270px; top: 290px;";
-        //     console.log(scoreCount);
-        // }
+        let bestUI = document.createElement('img');
+        bestUI.id = "bestUI";
+        if(scoreNumbers == 1){
+            bestUI.src = String(topScore)[0] + ".png";
+            bestUI.style = "height: 35px; position: absolute; left: 235px; top: 360px;";
+        }
+        if(scoreNumbers == 2){
+            let bestUI2 = document.createElement('img');
+            bestUI2.id = "scoreUI2";
+            bestUI.src = String(topScore)[0] + ".png";
+            scoreUI.style = "height: 35px; position: absolute; left: 220px; top: 360px;";
+            bestUI2.src = String(topScore)[1] + ".png";
+            bestUI2.style = "height: 35px; position: absolute; left: 250px; top: 360px;";
+        }
+        if(scoreNumbers == 3){
+            let scoreUI3 = document.createElement('img');
+            let scoreUI2 = document.createElement('img');
+            scoreUI3.id = "scoreUI3";
+            scoreUI.src = String(scoreCount)[0] + ".png";
+            scoreUI.style = "height: 35px; position: absolute; left: 205px; top: 290px;";
+            scoreUI2.src = String(scoreCount)[1] + ".png";
+            scoreUI2.style = "height: 35px; position: absolute; left: 235px; top: 290px;";
+            scoreUI3.src = String(scoreCount)[2] + ".png";
+            scoreUI3.style = "height: 35px; position: absolute; left: 270px; top: 290px;";
+            console.log(scoreCount);
+        }
 
         // - Restart Button
         let restartBtn = document.createElement('img');
@@ -335,13 +337,19 @@ function checkGameStatus() {
 
         // Game Over is True
         gameOver = true;
+        start = false;
+        playerY = floor;
+        player.style.top = playerY + "px";
 
         // Append All UI
         imgContainer.appendChild(gameover);
         imgContainer.appendChild(scoreImg);
         imgContainer.appendChild(bestImg);
+        imgContainer.appendChild(bestUI);
+
         if(scoreNumbers == 2){
             imgContainer.appendChild(scoreUI2);
+            imgContainer.appendChild(bestUI2);
         }
         if(scoreNumbers == 3){
             imgContainer.appendChild(scoreUI2);
@@ -372,12 +380,19 @@ function restart(){
         document.getElementById('scoreUI3').remove();
     }
 
-
     scoreCount = 0;
-    scoreNumbers = 1;
-    player.classList = "start flap";
     score1.style = "height: 50px; position: absolute; left: 225px; top: 50px;"
+    scoreNumbers = 1;
+    score1.src = String(scoreCount)[0] + ".png"
+    player.classList = "start flap";
     playerAlive = true;
-    start = true;
+    playerY = 250;
+    console.log(playerY);
     gameOver = false;
+}
+
+function debug(){
+    console.log("playerAlive:" +playerAlive);
+    console.log("start:"+start);
+    console.log("y:"+playerY);
 }
