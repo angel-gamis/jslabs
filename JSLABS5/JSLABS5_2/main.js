@@ -19,7 +19,7 @@ let playerMoveStatus = 1;
 let playerBoost = 100;
 let playerFall = 3.75;
 let flapCount = 0;
-let scoreCount = 0;
+let scoreCount = 100;
 let scoreNumbers = 1;
 
 // ** Game Settings **
@@ -29,7 +29,7 @@ setInterval(playerFalling, 450);
 setInterval(updatePosition, 15);
 setInterval(checkGameStatus, 10);
 setInterval(animateFlap, 125);
-setInterval(debug, 800);
+//setInterval(debug, 800);
 let runKeyPress = true;
 let scoreChart = [0];
 let topScore = 0;
@@ -57,17 +57,16 @@ pipeTop.addEventListener('animationiteration', () => {
     }
 
     // Checks Score Count to Change Number of Didgits
-    if(scoreCount >= 10 && scoreCount < 100){
-        scoreNumbers++;
-        score1.style = "position: absolute; height: 50px; left: 210px; top: 50px;";
-        score2.style = "position: absolute; height: 50px; left: 240px; top: 50px;";
+    if(scoreCount >= 10 && scoreCount < 100 && scoreNumbers == 1){
+        score1.style = "position: absolute; height: 50px; left: 205px; top: 50px;";
+        document.getElementById('score2').style = "position: absolute; height: 50px; left: 245px; top: 50px;";
+        scoreNumbers = 2;
     }
-    if(scoreCount >= 100){
-        scoreNumbers++;
-
+    if(scoreCount >= 100 && scoreNumbers == 2){
         score1.style = "position: absolute; height: 50px; left: 195px; top: 50px;";
-        score2.style = "height: 50px; position: absolute; left: 225px; top: 50px;";
-        score3.style = "position: absolute; height: 50px; left: 255px; top: 50px;";
+        document.getElementById('score2').style.style = "position: absolute; height: 50px; left: 225px; top: 50px;";
+        document.getElementById('score3').style.style = "position: absolute; height: 50px; left: 255px; top: 50px;";
+        scoreNumbers = 3;
     }
 
     // bottom 515px max 217 min (363 &< needs Extra)
@@ -164,11 +163,9 @@ function updatePosition() {
     playerY += playerFall;
     player.style.top = playerY + "px";
     if (playerMoveStatus <= 0) {
-        //player.style.backgroundImage = 'url(birddown1.gif)';
         player.style.transform = "rotate(70deg)"
     }
     if (playerY >= floor) {
-        //player.style.backgroundImage = 'url(birddead.gif)';
         player.style.transform = "rotate(90deg)"
         playerAlive = false;
         console.log("dead floor");
@@ -255,25 +252,22 @@ function checkGameStatus() {
 
         // - Score UI
         let scoreUI = document.createElement('img');
+        let scoreUI2 = document.createElement('img');
+        let scoreUI3 = document.createElement('img');
         scoreUI.id = "scoreUI";
+        scoreUI2.id = "scoreUI2";
+        scoreUI3.id = "scoreUI3";
         if(scoreNumbers == 1){
-            scoreUI.src = scoreCount + ".png";
+            scoreUI.src = String(scoreCount)[0] + ".png";
             scoreUI.style = "height: 35px; position: absolute; left: 235px; top: 290px;";
         }
         if(scoreNumbers == 2){
-            let scoreUI2 = document.createElement('img');
-            scoreUI2.id = "scoreUI2";
             scoreUI.src = String(scoreCount)[0] + ".png";
             scoreUI.style = "height: 35px; position: absolute; left: 220px; top: 290px;";
             scoreUI2.src = String(scoreCount)[1] + ".png";
-            console.log(String(scoreCount)[1]);
-            console.log(scoreCount);
             scoreUI2.style = "height: 35px; position: absolute; left: 250px; top: 290px;";
         }
         if(scoreNumbers == 3){
-            let scoreUI3 = document.createElement('img');
-            let scoreUI2 = document.createElement('img');
-            scoreUI3.id = "scoreUI3";
             scoreUI.src = String(scoreCount)[0] + ".png";
             scoreUI.style = "height: 35px; position: absolute; left: 205px; top: 290px;";
             scoreUI2.src = String(scoreCount)[1] + ".png";
@@ -292,34 +286,32 @@ function checkGameStatus() {
 
         scoreChart.push(scoreCount);
         checkBest();
-        console.log("TOP SCORE: " + topScore);    
+        console.log("TOP SCORE: " + topScore); 
 
         // Best UI
         let bestUI = document.createElement('img');
+        let bestUI2 = document.createElement('img');
+        let bestUI3 = document.createElement('img');
         bestUI.id = "bestUI";
-        if(scoreNumbers == 1){
+        bestUI2.id = "bestUI2";
+        bestUI3.id = "scoreUI3";
+        if(String(topScore)[0] != undefined){
             bestUI.src = String(topScore)[0] + ".png";
             bestUI.style = "height: 35px; position: absolute; left: 235px; top: 360px;";
         }
-        if(scoreNumbers == 2){
-            let bestUI2 = document.createElement('img');
-            bestUI2.id = "scoreUI2";
+        if(String(topScore)[1] != undefined){
             bestUI.src = String(topScore)[0] + ".png";
-            scoreUI.style = "height: 35px; position: absolute; left: 220px; top: 360px;";
+            bestUI.style = "height: 35px; position: absolute; left: 220px; top: 360px;";
             bestUI2.src = String(topScore)[1] + ".png";
             bestUI2.style = "height: 35px; position: absolute; left: 250px; top: 360px;";
         }
-        if(scoreNumbers == 3){
-            let scoreUI3 = document.createElement('img');
-            let scoreUI2 = document.createElement('img');
-            scoreUI3.id = "scoreUI3";
-            scoreUI.src = String(scoreCount)[0] + ".png";
-            scoreUI.style = "height: 35px; position: absolute; left: 205px; top: 290px;";
-            scoreUI2.src = String(scoreCount)[1] + ".png";
-            scoreUI2.style = "height: 35px; position: absolute; left: 235px; top: 290px;";
-            scoreUI3.src = String(scoreCount)[2] + ".png";
-            scoreUI3.style = "height: 35px; position: absolute; left: 270px; top: 290px;";
-            console.log(scoreCount);
+        if(String(topScore)[2] != undefined){
+            bestUI.src = String(topScore)[0] + ".png";
+            bestUI.style = "height: 35px; position: absolute; left: 205px; top: 360px;";
+            bestUI2.src = String(topScore)[1] + ".png";
+            bestUI2.style = "height: 35px; position: absolute; left: 235px; top: 360px;";
+            bestUI3.src = String(topScore)[2] + ".png";
+            bestUI3.style = "height: 35px; position: absolute; left: 270px; top: 360px;";
         }
 
         // - Restart Button
@@ -344,20 +336,28 @@ function checkGameStatus() {
         // Append All UI
         imgContainer.appendChild(gameover);
         imgContainer.appendChild(scoreImg);
+        imgContainer.appendChild(scoreUI);
         imgContainer.appendChild(bestImg);
         imgContainer.appendChild(bestUI);
+        imgContainer.appendChild(shareBtn);
+        imgContainer.appendChild(restartBtn);
 
         if(scoreNumbers == 2){
             imgContainer.appendChild(scoreUI2);
-            imgContainer.appendChild(bestUI2);
         }
         if(scoreNumbers == 3){
             imgContainer.appendChild(scoreUI2);
             imgContainer.appendChild(scoreUI3);
         }
-        imgContainer.appendChild(scoreUI);
-        imgContainer.appendChild(shareBtn);
-        imgContainer.appendChild(restartBtn);
+
+        if(topScore.length == 2){
+            imgContainer.appendChild(bestUI2);
+        }
+        if(topScore.length == 3){
+            imgContainer.appendChild(bestUI2);
+            imgContainer.appendChild(bestUI3);
+        }
+
         pipeBottom.classList = "";
         pipeTop.classList = "";
         pipeExtra.classList = "";
@@ -372,12 +372,24 @@ function restart(){
     document.getElementById('restartBtn').remove();
     document.getElementById('shareBtn').remove();
     document.getElementById('scoreUI').remove();
+    document.getElementById('bestUI').remove();
     if(scoreNumbers == 2){
         document.getElementById('scoreUI2').remove();
+        document.getElementById('score2').remove();
     }
     if(scoreNumbers == 3){
         document.getElementById('scoreUI2').remove();
         document.getElementById('scoreUI3').remove();
+        document.getElementById('score2').remove();
+        document.getElementById('score3').remove();
+    }
+    
+    if(topScore.length == 2){
+        document.getElementById('bestUI2').remove();    
+    }
+    if(topScore.length == 3){
+        document.getElementById('bestUI2').remove();
+        document.getElementById('bestUI3').remove();
     }
 
     scoreCount = 0;
