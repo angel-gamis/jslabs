@@ -19,7 +19,7 @@ let playerMoveStatus = 1;
 let playerBoost = 100;
 let playerFall = 3.75;
 let flapCount = 0;
-let scoreCount = 100;
+let scoreCount = 0;
 let scoreNumbers = 1;
 
 // ** Game Settings **
@@ -57,15 +57,16 @@ pipeTop.addEventListener('animationiteration', () => {
     }
 
     // Checks Score Count to Change Number of Didgits
-    if(scoreCount >= 10 && scoreCount < 100 && scoreNumbers == 1){
+    if(scoreCount >= 10 && scoreCount < 100 && scoreNumbers == 1 || scoreNumbers == 2){
         score1.style = "position: absolute; height: 50px; left: 205px; top: 50px;";
         document.getElementById('score2').style = "position: absolute; height: 50px; left: 245px; top: 50px;";
         scoreNumbers = 2;
+        
     }
-    if(scoreCount >= 100 && scoreNumbers == 2){
-        score1.style = "position: absolute; height: 50px; left: 195px; top: 50px;";
-        document.getElementById('score2').style.style = "position: absolute; height: 50px; left: 225px; top: 50px;";
-        document.getElementById('score3').style.style = "position: absolute; height: 50px; left: 255px; top: 50px;";
+    if(scoreCount >= 100 && scoreNumbers == 2 || scoreNumbers == 3){
+        score1.style = "position: absolute; height: 50px; left: 186px; top: 50px;";
+        document.getElementById('score2').style = "position: absolute; height: 50px; left: 226px; top: 50px;";
+        document.getElementById('score3').style = "position: absolute; height: 50px; left: 266px; top: 50px;";
         scoreNumbers = 3;
     }
 
@@ -85,7 +86,7 @@ document.onkeyup = checkKeycodeUp;
 
 document.body.onload = function(){
     player.classList = "start flap";
-    score1.style = "height: 50px; position: absolute; left: 225px; top: 50px;"
+    score1.style = "height: 50px; position: absolute; left: 226px; top: 50px;"
 }
 
 let Keys = {
@@ -259,7 +260,7 @@ function checkGameStatus() {
         scoreUI3.id = "scoreUI3";
         if(scoreNumbers == 1){
             scoreUI.src = String(scoreCount)[0] + ".png";
-            scoreUI.style = "height: 35px; position: absolute; left: 235px; top: 290px;";
+            scoreUI.style = "height: 35px; position: absolute; left: 236px; top: 290px;";
         }
         if(scoreNumbers == 2){
             scoreUI.src = String(scoreCount)[0] + ".png";
@@ -269,11 +270,11 @@ function checkGameStatus() {
         }
         if(scoreNumbers == 3){
             scoreUI.src = String(scoreCount)[0] + ".png";
-            scoreUI.style = "height: 35px; position: absolute; left: 205px; top: 290px;";
+            scoreUI.style = "height: 35px; position: absolute; left: 206px; top: 290px;";
             scoreUI2.src = String(scoreCount)[1] + ".png";
-            scoreUI2.style = "height: 35px; position: absolute; left: 235px; top: 290px;";
+            scoreUI2.style = "height: 35px; position: absolute; left: 236px; top: 290px;";
             scoreUI3.src = String(scoreCount)[2] + ".png";
-            scoreUI3.style = "height: 35px; position: absolute; left: 270px; top: 290px;";
+            scoreUI3.style = "height: 35px; position: absolute; left: 266px; top: 290px;";
             console.log(scoreCount);
         }
         
@@ -282,7 +283,6 @@ function checkGameStatus() {
         bestImg.id = "bestImg";
         bestImg.src = "best.png";
         bestImg.classList = "bestImg";
-
 
         scoreChart.push(scoreCount);
         checkBest();
@@ -294,12 +294,12 @@ function checkGameStatus() {
         let bestUI3 = document.createElement('img');
         bestUI.id = "bestUI";
         bestUI2.id = "bestUI2";
-        bestUI3.id = "scoreUI3";
+        bestUI3.id = "bestUI3";
         if(String(topScore)[0] != undefined){
             bestUI.src = String(topScore)[0] + ".png";
-            bestUI.style = "height: 35px; position: absolute; left: 235px; top: 360px;";
+            bestUI.style = "height: 35px; position: absolute; left: 236px; top: 360px;";
         }
-        if(String(topScore)[1] != undefined){
+        if(String(topScore)[1] != undefined && String(topScore)[2] == undefined){
             bestUI.src = String(topScore)[0] + ".png";
             bestUI.style = "height: 35px; position: absolute; left: 220px; top: 360px;";
             bestUI2.src = String(topScore)[1] + ".png";
@@ -307,11 +307,11 @@ function checkGameStatus() {
         }
         if(String(topScore)[2] != undefined){
             bestUI.src = String(topScore)[0] + ".png";
-            bestUI.style = "height: 35px; position: absolute; left: 205px; top: 360px;";
+            bestUI.style = "height: 35px; position: absolute; left: 206px; top: 360px;";
             bestUI2.src = String(topScore)[1] + ".png";
-            bestUI2.style = "height: 35px; position: absolute; left: 235px; top: 360px;";
+            bestUI2.style = "height: 35px; position: absolute; left: 236px; top: 360px;";
             bestUI3.src = String(topScore)[2] + ".png";
-            bestUI3.style = "height: 35px; position: absolute; left: 270px; top: 360px;";
+            bestUI3.style = "height: 35px; position: absolute; left: 266px; top: 360px;";
         }
 
         // - Restart Button
@@ -350,10 +350,10 @@ function checkGameStatus() {
             imgContainer.appendChild(scoreUI3);
         }
 
-        if(topScore.length == 2){
+        if(String(topScore)[1] != undefined){
             imgContainer.appendChild(bestUI2);
         }
-        if(topScore.length == 3){
+        if(String(topScore)[2] != undefined){
             imgContainer.appendChild(bestUI2);
             imgContainer.appendChild(bestUI3);
         }
@@ -384,10 +384,10 @@ function restart(){
         document.getElementById('score3').remove();
     }
     
-    if(topScore.length == 2){
+    if(String(topScore)[1] != undefined && String(topScore)[2] == undefined){
         document.getElementById('bestUI2').remove();    
     }
-    if(topScore.length == 3){
+    if(String(topScore)[2] != undefined){
         document.getElementById('bestUI2').remove();
         document.getElementById('bestUI3').remove();
     }
