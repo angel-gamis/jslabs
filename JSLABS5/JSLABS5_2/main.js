@@ -152,9 +152,14 @@ function move() {
             }, 750)
         }
     }
-    if(!playerAlive && Keys.up == true){
-        restart();
+
+    console.log(start)
+    if(start == false && playerAlive == false){
+        if(document.getElementById('restartBtn') != undefined){
+            restart();
+        }
     }
+
     player.style.top = playerY + "px";
 }
 
